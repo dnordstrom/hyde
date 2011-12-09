@@ -1,5 +1,7 @@
 module Hyde
   class Application
+    include PathHelper
+
     def initialize
       @configs = []
       config_blocks = {}
@@ -16,6 +18,7 @@ module Hyde
     end
 
     def call(env)
+      print env.inspect
       [
         # HTTP status code.
         200,
