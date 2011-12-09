@@ -2,14 +2,15 @@ module Hyde
   class Application
     def initialize
       @configs = []
+      config_blocks = {}
 
       # Load configuration files.
       Dir.glob("hyde/*.rb").each do |config|
-        Hyde::DSL.load config
+        config_blocks += Hyde::DSL.load config
       end
 
       # Create configuration objects from loaded blocks.
-      hyde_configs.each do |site, block|
+      config_blocks.each do |site, block|
         @configs << Hyde::Configuration.new(site, block)
       end
     end
