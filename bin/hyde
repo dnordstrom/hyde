@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby -w
+
+require "rack"
+require "hyde"
+
+app = Rack::Builder.new do
+  use Rack::ShowExceptions
+  run Hyde::Application.new
+end
+
+Rack::Handler::WEBrick.run(app)
