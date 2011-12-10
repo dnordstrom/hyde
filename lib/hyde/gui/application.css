@@ -188,8 +188,10 @@ textarea {
   font-family: monospace;
   padding: 0.5em;
   width: 90%;
-  max-width: 35em;
+  max-width: 45em;
 }
+
+textarea { height: 60em; }
 
 input:focus,
 textarea:focus {

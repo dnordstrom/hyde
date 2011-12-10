@@ -3,22 +3,27 @@ module Hyde
     def initialize
       @root = File.expand_path(File.dirname(__FILE__), "gui")
       @gui = Rack::Directory.new @root
-      @configs = {}
+      @users = {}
+      @configs = []
       @templates = {}
       config_blocks = {}
 
       # Load configuration files.
       Dir.glob("hyde/*.rb").each do |config|
-        config_blocks.merge!( Hyde::DSL.load File.new(config) )
+        results = Hyde::DSL.load File.new(config)
+
+        config_blocks.merge!( results[:configs] )
+        @users.merge!( results[:users] )
       end
 
       # Create configuration objects from loaded blocks.
       config_blocks.each do |site, block|
-        @configs[site] = Hyde::Configuration.new(site, block)
+        @configs << Hyde::Configuration.new(site, &block)
       end
     end
 
     def call(env)
+      print @users.inspect
       # Pass request to static file handler if path matches "/gui".
       return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
       
@@ -27,9 +32,12 @@ module Hyde
 
       # Get selected site and its contents.
       @site = @path[1].nil? ? nil : @path[1]
-      @config = @configs[@site].nil? ? nil : @configs[@site]
-      @files = @config.files
-
+      @config = @configs.select {|config| config.title === @site}.first
+      @content = @path[2].nil? ? nil : @path[2]
+      @files = @config.nil? || @content.nil? ? nil : @config.files(@content)
+      @filename = @path[3].nil? ? nil : @config.site + "/" + @content + "/" + @path[3]
+      @file = File.new(@filename) unless @filename.nil?
+      
       # Return Rack compatible response.
       [
         # HTTP status code.

@@ -5,6 +5,9 @@ describe Hyde::DSL do
     # Example configuration, simulating file
     # IO using StringIO class.
     @sample_config = StringIO.new <<-eos
+      user :dnordstrom, :password
+      user :test, :test
+
       configure :test_site do
         site "/some/path"
 
@@ -28,6 +31,11 @@ describe Hyde::DSL do
 
     it "should call configure method" do
       Hyde::DSL.any_instance.should_receive(:configure).twice
+      Hyde::DSL.load @sample_config
+    end
+    
+    it "should call user method" do
+      Hyde::DSL.any_instance.should_receive(:user).twice
       Hyde::DSL.load @sample_config
     end
   end

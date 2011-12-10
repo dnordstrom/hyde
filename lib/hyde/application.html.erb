@@ -11,7 +11,7 @@
         <ul>
           <li><strong>Sites</strong></li>
           <% @configs.each do |config| %>
-            <li><a href="/<%= config.site %>" class="<%= "current" if @config.site === config.site %>">nintera.com</a></li>
+            <li><a href="/<%= config.title %>" class="<%= "current" if !@config.nil? && @config.site === config.site %>"><%= config.title.gsub("_", ".") %></a></li>
           <% end %>
         </ul>
         <% unless @config.nil? %>
@@ -19,8 +19,8 @@
             <li><strong>Content</strong></li>
             <% @config.content.each do |content| %>
               <li>
-                <a href="/<%= @config.site %>/<%= File.basename(dir) %>">
-                  <%= File.basename(dir).capitalize %>
+                <a href="/<%= @config.title %>/<%= content %>">
+                  <%= content.gsub("_", "").capitalize %>
                 </a>
               </li>
             <% end %>
@@ -30,20 +30,25 @@
     </header>
     <section>
       <nav>
-        <ul>
-          <li><a class="current" href="#">Some sample page here</a></li>
-          <li><a href="#">Some sample page here</a></li>
-          <li><a href="#">Some sample page here</a></li>
-          <li><a href="#">Some sample page here</a></li>
-        </ul>
+        <% unless @files.nil? %>
+          <ul>
+            <% @files.each do |file| %>
+              <li>
+                <a href="<%= "/#{@config.title}/#{@content}/#{file}" %>">
+                  <%= file %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
       </nav>
       <div id="main">
         <form>
           <label>Title</label>
-          <input type="text">
+          <input type="text" value="<%= @filename %>">
 
           <label>Content</label>
-          <textarea></textarea>
+          <textarea><%= @file.read %></textarea>
 
           <input type="submit" value="Save">
         </form>

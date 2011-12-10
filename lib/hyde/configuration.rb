@@ -28,11 +28,17 @@ module Hyde
     end
 
     def files(dir)
+      filenames = []
+
       @content.each do |path|
-        if path =~ /#{dir}$/
-          Dir.glob("#{path}/*")
+        if path =~ /#{dir}$/ 
+          Dir.glob("#{site}/#{path}/*").each do |file|
+            filenames << File.basename(file)
+          end
         end
       end
+
+      filenames.reverse
     end
   end
 end
