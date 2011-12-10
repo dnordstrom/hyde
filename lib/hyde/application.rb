@@ -36,7 +36,7 @@ module Hyde
     end
 
     def load_template(file)
-      ERB.new( File.new("#{@root}/#{file}") ).result(binding)
+      ERB.new( File.new("#{@root}/#{file}").read ).result(binding)
     end
   end
 end
