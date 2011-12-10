@@ -1,7 +1,7 @@
 module Hyde
   class Application
     def initialize
-      @root = Dir.expand_path(File.dirname(__FILE__), "gui")
+      @root = File.expand_path(File.dirname(__FILE__), "gui")
       @gui = Rack::Directory.new @root
       @configs = []
       config_blocks = {}
