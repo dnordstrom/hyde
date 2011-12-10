@@ -104,11 +104,15 @@ nav strong {
   float: left;
   font-size: 0.85em;
   padding: 0 0.5em;
-  text-decooration: none;
+  text-decoration: none;
 }
 
 nav a {
   color: #555;
+}
+
+nav a.current {
+  text-decoration: underline;
 }
 
 nav a:hover {
