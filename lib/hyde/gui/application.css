@@ -95,12 +95,12 @@ header h1 {
   padding: 0 1em;
 }
 
-nav {
+header nav {
   padding: 0 1em;
   position: relative;
 }
 
-nav a {
+header nav a {
   color: #777;
   display: block;
   float: left;
@@ -109,25 +109,39 @@ nav a {
   text-decoration: none;
 }
 
-nav a:active {
+header nav a:active {
   color: #555;
 }
 
-nav strong {
+header nav strong {
   padding: 0 0.5em 0 0;
 }
 
-nav a:hover {
+header nav a:hover {
   background: #e0e0e0;
 }
 
-nav ul {
+header nav ul {
   display: block;
   float: left;
   margin: 0 1.5em 0 0;
 }
 
-nav li {
+header nav li {
   display: block;
   float: left;
+}
+
+/**
+ * MAIN SECTION
+ */
+
+section nav {
+  width: 30%;
+  float: left;
+}
+
+section #main {
+  float: left;
+  width: 70%;
 }
