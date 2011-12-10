@@ -182,10 +182,11 @@ textarea {
   -webkit-border-radius: 2px;
   -o-border-radius: 2px;
   border-radius: 2px;
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
+  padding: 0.5em 1em;
 }
 
 input:focus,
 textarea:focus {
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
 }
