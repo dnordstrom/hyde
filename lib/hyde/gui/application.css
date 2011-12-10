@@ -210,7 +210,7 @@ input[type="button"]:hover {
   box-shadow: 0 0 5px #ddd;
 }
 
-input[type="submit"]:focus,
-input[type="button"]:focus {
+input[type="submit"]:active,
+input[type="button"]:active {
   box-shadow: 0 0 2px #ddd;
 }
