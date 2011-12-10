@@ -207,5 +207,5 @@ input[type="button"] {
 input[type="submit"]:hover,
 input[type="button"]:hover {
   color: #333;
-  box-shadow: 0 0 2px #ddd;
+  box-shadow: 0 0 5px #ddd;
 }
