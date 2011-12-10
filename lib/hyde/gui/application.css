@@ -98,8 +98,7 @@ nav {
   position: relative;
 }
 
-nav a,
-nav strong {
+nav a {
   display: block;
   float: left;
   font-size: 0.8em;
@@ -112,7 +111,7 @@ nav a {
 }
 
 nav a.current {
-  color: #999;
+  color: #777;
 }
 
 nav a:hover {
