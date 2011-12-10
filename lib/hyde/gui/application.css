@@ -145,6 +145,15 @@ section nav {
   float: left;
 }
 
+section nav a {
+  color: #777;
+  text-decoration: none;
+}
+
+section nav a:hover {
+  color: #555;
+}
+
 section #main {
   float: left;
   width: 70%;
