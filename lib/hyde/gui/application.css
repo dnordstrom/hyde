@@ -176,6 +176,13 @@ section #main {
  * FORMS
  */
 
+form {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 40em;
+}
+
 input,
 textarea {
   -moz-border-radius: 2px;
@@ -186,7 +193,6 @@ textarea {
   font-family: monospace;
   padding: 0.5em;
   width: 90%;
-  max-width: 35em;
 }
 
 input:focus,
