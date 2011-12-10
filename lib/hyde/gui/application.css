@@ -104,10 +104,15 @@ nav strong {
   float: left;
   font-size: 0.85em;
   padding: 0 0.5em;
+  text-decooration: none;
+}
+
+nav a {
+  color: #555;
 }
 
 nav a:hover {
-  background: #ddd;
+  background: #e0e0e0;
 }
 
 nav ul {
