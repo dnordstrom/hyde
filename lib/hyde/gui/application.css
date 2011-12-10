@@ -219,3 +219,11 @@ input[type="submit"]:active,
 input[type="button"]:active {
   box-shadow: 0 0 2px #ddd;
 }
+
+label {
+  float: left;
+  line-height: 2.5em;
+  clear: left;
+  display: block;
+  width: 5em;
+}
