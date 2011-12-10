@@ -97,7 +97,10 @@ nav {
   position: relative;
 }
 
-nav a {
+nav a,
+nav strong {
+  display: block;
+  float: left;
   font-size: 0.85em;
   padding: 0 0.5em;
 }
@@ -107,10 +110,12 @@ nav a:hover {
 }
 
 nav ul {
-  display: inline;
+  display: block;
+  float: left;
   margin: 0 2em 0 0;
 }
 
 nav li {
-  display: inline;
+  display: block;
+  float: left;
 }
