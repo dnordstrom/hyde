@@ -107,6 +107,10 @@ nav a {
   text-decoration: none;
 }
 
+nav strong {
+  padding: 0 0.5em 0 0;
+}
+
 nav a.current {
   color: #777;
 }
@@ -124,5 +128,4 @@ nav ul {
 nav li {
   display: block;
   float: left;
-  padding: 0 1em 0 0;
 }
