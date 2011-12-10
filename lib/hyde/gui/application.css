@@ -199,6 +199,12 @@ textarea:focus {
 input[type="submit"],
 input[type="button"] {
   background: #eee;
+  background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
+  background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -o-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
   box-shadow: 0 0 2px #eee;
   cursor: pointer;
   padding: 0.6em 1.4em;
