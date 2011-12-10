@@ -102,7 +102,7 @@ nav a,
 nav strong {
   display: block;
   float: left;
-  font-size: 0.85em;
+  font-size: 0.8em;
   padding: 0 0.5em;
   text-decoration: none;
 }
@@ -112,7 +112,7 @@ nav a {
 }
 
 nav a.current {
-  text-decoration: underline;
+  color: #999;
 }
 
 nav a:hover {
