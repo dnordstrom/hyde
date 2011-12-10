@@ -8,4 +8,4 @@ app = Rack::Builder.new do
   run Hyde::Application.new
 end
 
-Rack::Handler::WEBrick.run(app)
+Rack::Server.start(app: app, Port: 5000)
