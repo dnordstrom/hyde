@@ -19,7 +19,7 @@ module Hyde
 
     def call(env)
       # Pass request to static file handler if path matches "/gui".
-      return @gui.call(env) if env["PATH_INFO"].to_s === /^\/gui/
+      return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
       
       # Return Rack compatible response.
       [
