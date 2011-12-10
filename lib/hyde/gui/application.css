@@ -97,6 +97,7 @@ header h1 {
 }
 
 header nav {
+  font-size: 0.9em;
   padding: 0 1em;
   position: relative;
 }
