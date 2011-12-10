@@ -5,8 +5,8 @@ describe Hyde::Configuration do
     @config = Hyde::Configuration.new :test_site do
       site "/some/path"
 
-      content "/some/path/_posts"
-      content "/some/path/_pages"
+      content "_posts"
+      content "_pages"
     end
   end
   
@@ -25,8 +25,8 @@ describe Hyde::Configuration do
   describe "#content" do
     it "should store path(s) to content" do
       @config.content.should === [
-        "/some/path/_posts",
-        "/some/path/_pages"
+        "_posts",
+        "_pages"
       ]
     end
   end

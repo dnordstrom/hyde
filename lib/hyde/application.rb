@@ -9,7 +9,7 @@ module Hyde
 
       # Load configuration files.
       Dir.glob("hyde/*.rb").each do |config|
-        config_blocks += Hyde::DSL.load File.new(config)
+        config_blocks.merge!( Hyde::DSL.load File.new(config) )
       end
 
       # Create configuration objects from loaded blocks.
