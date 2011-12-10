@@ -184,6 +184,8 @@ textarea {
   border-radius: 2px;
   border: 1px solid #ddd;
   padding: 0.5em;
+  width: 90%;
+  max-width: 35em;
 }
 
 input:focus,
