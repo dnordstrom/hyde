@@ -176,13 +176,6 @@ section #main {
  * FORMS
  */
 
-form {
-  display: block;
-  position: relative;
-  width: 100%;
-  max-width: 40em;
-}
-
 input,
 textarea {
   -moz-border-radius: 2px;
@@ -193,6 +186,7 @@ textarea {
   font-family: monospace;
   padding: 0.5em;
   width: 90%;
+  max-width: 35em;
 }
 
 input:focus,
@@ -211,8 +205,8 @@ input[type="button"] {
   color: #555;
   text-shadow: 1px 1px 1px #fff;
   display: block;
-  margin: 2em auto;
-  width: 120px;
+  margin: 2em 0;
+  width: auto;
 }
 
 input[type="submit"]:hover,
