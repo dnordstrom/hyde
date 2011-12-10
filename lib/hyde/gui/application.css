@@ -209,3 +209,8 @@ input[type="button"]:hover {
   color: #333;
   box-shadow: 0 0 5px #ddd;
 }
+
+input[type="submit"]:focus,
+input[type="button"]:focus {
+  box-shadow: 0 0 2px #ddd;
+}
