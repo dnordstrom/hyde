@@ -150,15 +150,16 @@ section nav {
 section nav a {
   color: #999;
   text-decoration: none;
+  display: block;
+  padding: 0.5em 0;
 }
 
 section nav a:hover {
+  background: #e0e0e0;
   color: #777;
 }
 
 section nav li {
-  display: block;
-  padding: 0.5em 0;
 }
 
 section #main {
