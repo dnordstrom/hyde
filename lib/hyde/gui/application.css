@@ -138,6 +138,7 @@ header nav li {
 
 section {
   font-size: 0.8em;
+  padding: 0 1.4em;
 }
 
 section nav {
@@ -152,6 +153,11 @@ section nav a {
 
 section nav a:hover {
   color: #555;
+}
+
+section nav li {
+  display: block;
+  padding: 0.5em 0;
 }
 
 section #main {
