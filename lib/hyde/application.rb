@@ -4,6 +4,7 @@ module Hyde
       @root = File.expand_path(File.dirname(__FILE__), "gui")
       @gui = Rack::Directory.new @root
       @configs = []
+      @templates = {}
       config_blocks = {}
 
       # Load configuration files.
@@ -30,9 +31,12 @@ module Hyde
         { "Content-Type" => "text/html" },
 
         # Response body.
-        # TODO: Load ERB template.
-        [ "Hello World!" ]
+        [ load_template "application.html.erb" ]
       ]
+    end
+
+    def load_template(file)
+      ERB.new( File.new("#{@root}/#{file}") ).result(binding)
     end
   end
 end
