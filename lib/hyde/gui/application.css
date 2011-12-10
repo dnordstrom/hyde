@@ -171,3 +171,21 @@ section #main {
   margin: 0 0 0 5%;
   width: 60%;
 }
+
+/**
+ * FORMS
+ */
+
+input,
+textarea {
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid #eee;
+}
+
+input:focus,
+textarea:focus {
+  border: 1px solid #ddd;
+}
