@@ -221,9 +221,10 @@ input[type="button"]:active {
 }
 
 label {
+  color: #999;
   float: left;
   line-height: 2.5em;
   clear: left;
   display: block;
-  width: 5em;
+  width: 6em;
 }
