@@ -65,4 +65,13 @@ table {
  * GENERAL
  */
 
+body {
+  font-family: Arial, sans-serif;
+}
 
+header {
+  position: relative;
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 0 5px #ddd;
+}
