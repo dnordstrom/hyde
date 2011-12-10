@@ -190,3 +190,9 @@ input:focus,
 textarea:focus {
   border: 1px solid #ccc;
 }
+
+input[type="submit"],
+input[type="button"] {
+  background: #eee;
+  box-shadow: 0 0 2px #eee;
+}
