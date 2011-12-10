@@ -195,10 +195,17 @@ input[type="submit"],
 input[type="button"] {
   background: #eee;
   box-shadow: 0 0 2px #eee;
+  cursor: pointer;
   padding: 0.6em 1.4em;
   font-size: 1.2em;
   color: #555;
   text-shadow: 1px 1px 1px #fff;
   display: block;
   margin: 2em 0;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  color: #333;
+  box-shadow: 0 0 2px #ddd;
 }
