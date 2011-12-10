@@ -136,6 +136,10 @@ header nav li {
  * MAIN SECTION
  */
 
+section {
+  font-size: 0.8em;
+}
+
 section nav {
   width: 30%;
   float: left;
