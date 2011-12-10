@@ -1,7 +1,5 @@
 module Hyde
   class Application
-    include PathHelper
-
     def initialize
       @root = Dir.expand_path(File.dirname(__FILE__), "gui")
       @gui = Rack::Directory.new @root
@@ -10,7 +8,7 @@ module Hyde
 
       # Load configuration files.
       Dir.glob("hyde/*.rb").each do |config|
-        config_blocks += Hyde::DSL.load config
+        config_blocks += Hyde::DSL.load File.new(config)
       end
 
       # Create configuration objects from loaded blocks.
