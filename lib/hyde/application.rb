@@ -31,7 +31,7 @@ module Hyde
         { "Content-Type" => "text/html" },
 
         # Response body.
-        [ load_template "application.html.erb" ]
+        [ load_template("application.html.erb") ]
       ]
     end
 
