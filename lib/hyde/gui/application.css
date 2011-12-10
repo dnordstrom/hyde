@@ -82,13 +82,13 @@ header {
   background: #eee;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 0 5px #ddd;
+  color: #999;
   line-height: 2.2em;
 }
 
 header h1 {
   float: right;
   font-weight: bold;
-  color: #999;
   text-shadow: 1px 1px 1px #fff;
   padding: 0 1em;
 }
