@@ -110,7 +110,7 @@ nav a {
 }
 
 nav a:active {
-  color: #999;
+  color: #555;
 }
 
 nav strong {
@@ -119,7 +119,6 @@ nav strong {
 
 nav a:hover {
   background: #e0e0e0;
-  color: #555;
 }
 
 nav ul {
