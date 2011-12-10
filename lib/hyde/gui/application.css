@@ -84,17 +84,26 @@ header {
   box-shadow: 0 0 5px #ddd;
   color: #999;
   line-height: 2.2em;
+  padding: 0 1em;
   text-shadow: 1px 1px 1px #fff;
 }
 
 header h1 {
   float: right;
   font-weight: bold;
-  padding: 0 1em;
 }
 
 nav {
   position: relative;
+}
+
+nav a {
+  font-size: 0.85em;
+  padding: 0 0.5em;
+}
+
+nav a:hover {
+  background: #ddd;
 }
 
 nav ul {
