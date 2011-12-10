@@ -109,7 +109,7 @@ nav a {
   text-decoration: none;
 }
 
-nav a:focus {
+nav a:active {
   line-height: 2.3em;
 }
 
