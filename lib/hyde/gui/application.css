@@ -99,15 +99,12 @@ nav {
 }
 
 nav a {
+  color: #555;
   display: block;
   float: left;
   font-size: 0.8em;
-  padding: 0 0.5em;
+  padding: 0 0.8em;
   text-decoration: none;
-}
-
-nav a {
-  color: #555;
 }
 
 nav a.current {
