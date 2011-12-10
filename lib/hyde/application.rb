@@ -3,6 +3,8 @@ module Hyde
     include PathHelper
 
     def initialize
+      @root = Dir.expand_path(File.dirname(__FILE__), "gui")
+      @gui = Rack::Directory.new @root
       @configs = []
       config_blocks = {}
 
@@ -18,7 +20,10 @@ module Hyde
     end
 
     def call(env)
-      print env.inspect
+      # Pass request to static file handler if path matches "/gui".
+      return @gui.call(env) if env["PATH_INFO"].to_s === "/gui"
+      
+      # Return Rack compatible response.
       [
         # HTTP status code.
         200,
