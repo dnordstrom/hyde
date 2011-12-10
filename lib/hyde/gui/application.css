@@ -109,6 +109,10 @@ nav a {
   text-decoration: none;
 }
 
+nav a:focus {
+  line-height: 2.3em;
+}
+
 nav strong {
   padding: 0 0.5em 0 0;
 }
