@@ -143,6 +143,7 @@ section {
 }
 
 section nav {
+  border-right: 1px solid #ddd;
   width: 30%;
   float: left;
 }
@@ -151,11 +152,11 @@ section nav a {
   color: #999;
   text-decoration: none;
   display: block;
-  padding: 0.5em 0;
+  padding: 0.5em 1em;
 }
 
 section nav a:hover {
-  background: #e0e0e0;
+  background: #eee;
   color: #777;
 }
 
@@ -164,5 +165,6 @@ section nav li {
 
 section #main {
   float: left;
-  width: 70%;
+  margin: 0 0 0 5%;
+  width: 65%;
 }
