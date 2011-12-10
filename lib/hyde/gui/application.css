@@ -78,23 +78,25 @@ strong {
  */
 
 header {
+  float: left;
   position: relative;
   background: #eee;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 0 5px #ddd;
   color: #999;
-  height: 2.2em;
   line-height: 2.2em;
-  padding: 0 1em;
   text-shadow: 1px 1px 1px #fff;
+  width: 100%;
 }
 
 header h1 {
   float: right;
   font-weight: bold;
+  padding: 0 1em;
 }
 
 nav {
+  padding: 0 1em;
   position: relative;
 }
 
