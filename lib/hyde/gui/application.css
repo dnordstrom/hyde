@@ -102,7 +102,7 @@ header nav {
 }
 
 header nav a {
-  color: #999;
+  color: #777;
   display: block;
   float: left;
   font-size: 0.8em;
@@ -111,7 +111,7 @@ header nav a {
 }
 
 header nav a:active {
-  color: #777;
+  color: #555;
 }
 
 header nav strong {
@@ -148,12 +148,12 @@ section nav {
 }
 
 section nav a {
-  color: #777;
+  color: #999;
   text-decoration: none;
 }
 
 section nav a:hover {
-  color: #555;
+  color: #777;
 }
 
 section nav li {
