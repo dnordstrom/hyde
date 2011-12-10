@@ -30,4 +30,15 @@ describe Hyde::Configuration do
       ]
     end
   end
+
+  describe "#files" do
+    it "should return array of files in specified content directory" do
+      Dir.should_receive(:glob).and_return([
+        "2012-01-01-some-content-file.markdown",
+        "2012-01-02-another-content-file.html"
+      ])
+
+      @config.files(:_posts).length === 2
+    end
+  end
 end

@@ -3,7 +3,7 @@ module Hyde
     def initialize
       @root = File.expand_path(File.dirname(__FILE__), "gui")
       @gui = Rack::Directory.new @root
-      @configs = []
+      @configs = {}
       @templates = {}
       config_blocks = {}
 
@@ -14,7 +14,7 @@ module Hyde
 
       # Create configuration objects from loaded blocks.
       config_blocks.each do |site, block|
-        @configs << Hyde::Configuration.new(site, block)
+        @configs[site] = Hyde::Configuration.new(site, block)
       end
     end
 
@@ -22,6 +22,14 @@ module Hyde
       # Pass request to static file handler if path matches "/gui".
       return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
       
+      # Get array of requested path.
+      @path = env['PATH_INFO'].split("/")
+
+      # Get selected site and its contents.
+      @site = @path[1].nil? ? nil : @path[1]
+      @config = @configs[@site].nil? ? nil : @configs[@site]
+      @files = @config.files
+
       # Return Rack compatible response.
       [
         # HTTP status code.

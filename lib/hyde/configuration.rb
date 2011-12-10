@@ -26,5 +26,13 @@ module Hyde
       return @title if title.nil?
       @title = title
     end
+
+    def files(dir)
+      @content.each do |path|
+        if path =~ /#{dir}$/
+          Dir.glob("#{path}/*")
+        end
+      end
+    end
   end
 end

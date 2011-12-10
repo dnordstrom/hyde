@@ -10,14 +10,22 @@
       <nav>
         <ul>
           <li><strong>Sites</strong></li>
-          <li><a href="#" class="current">nintera.com</a></li>
-          <li><a href="#">mrnrdstrom.com</a></li>
+          <% @configs.each do |config| %>
+            <li><a href="/<%= config.site %>" class="<%= "current" if @config.site === config.site %>">nintera.com</a></li>
+          <% end %>
         </ul>
-        <ul>
-          <li><strong>Content</strong></li>
-          <li><a href="/posts">Posts</a></li>
-          <li><a href="/pages">Pages</a></li>
-        </ul>
+        <% unless @config.nil? %>
+          <ul>
+            <li><strong>Content</strong></li>
+            <% @config.content.each do |content| %>
+              <li>
+                <a href="/<%= @config.site %>/<%= File.basename(dir) %>">
+                  <%= File.basename(dir).capitalize %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        <% end  %>
       </nav>
     </header>
     <section>
