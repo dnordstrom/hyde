@@ -204,6 +204,7 @@ input[type="button"] {
   text-shadow: 1px 1px 1px #fff;
   display: block;
   margin: 2em 0;
+  width: auto;
 }
 
 input[type="submit"]:hover,
