@@ -85,6 +85,7 @@ header {
   box-shadow: 0 0 5px #ddd;
   color: #999;
   line-height: 2.2em;
+  margin: 0 0 1em;
   text-shadow: 1px 1px 1px #fff;
   width: 100%;
 }
@@ -138,7 +139,7 @@ header nav li {
 
 section {
   font-size: 0.8em;
-  padding: 1.4em;
+  padding: 0 1.4em 60px;
 }
 
 section nav {
