@@ -183,6 +183,7 @@ textarea {
   -o-border-radius: 2px;
   border-radius: 2px;
   border: 1px solid #ddd;
+  font-family: monospace;
   padding: 0.5em;
   width: 90%;
   max-width: 35em;
@@ -199,6 +200,7 @@ input[type="button"] {
   box-shadow: 0 0 2px #eee;
   cursor: pointer;
   padding: 0.6em 1.4em;
+  font-family: Arial, sans-serif;
   font-size: 1.2em;
   color: #555;
   text-shadow: 1px 1px 1px #fff;
