@@ -8,4 +8,9 @@ app = Rack::Builder.new do
   run Hyde::Application.new
 end
 
+app = Rack::Session::Pool.new(
+  Hyde::Application.new,
+  expire_after: 3600
+)
+
 Rack::Server.start(app: app, Port: 5000)
