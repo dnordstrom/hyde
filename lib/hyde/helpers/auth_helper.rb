@@ -1,33 +1,21 @@
 module Hyde
   module AuthHelper
     # Analyze request for authentication cookie.
-    def logged_in?(request)
-      false
+    def logged_in?
+      @env["warden"].authenticated?
     end
 
-    # Load auth sessions from temp file.
-    def load_sessions(file = "hyde")
-      tmp = Tempfile.new(file)
-      sessions = {}
-
-      begin
-        while(line = tmp.gets)
-          data = line.split(":")
-          sessions[ data[0] ] = data[1]
-        end
-      ensure
-        tmp.close
+    def authenticate(username, password)
+      print "CALLING AUTH".inspect
+      if !@users[username].nil? && @users[username][:password].to_s === password
+        @users[username]
+      else
+        false
       end
-
-      sessions
     end
 
-    def salt(length = 64)
-      Array.new(length/2) { rand(256) }.pack('C*').unpack('H*').first
-    end
-
-    def hash(password, salt)
-      Digest::SHA256.hexdigest("password=#{password}&salt=#{@password_salt}")
+    def log_in
+      @env["warden"].authenticate! :password
     end
   end
 end

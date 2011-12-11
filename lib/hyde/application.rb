@@ -2,6 +2,8 @@ module Hyde
   class Application
     include Hyde::AuthHelper
     include Hyde::PathHelper
+    
+    attr_reader :users
 
     def initialize
       @root = File.expand_path(File.dirname(__FILE__), "gui")
@@ -26,6 +28,7 @@ module Hyde
     end
 
     def call(env)
+      @env = env
       @request = Rack::Request.new(env)
       @notice = nil
       @cookies = {}
@@ -33,25 +36,10 @@ module Hyde
       # Pass request to static file handler if path matches "/gui".
       return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
       
-      # Handle login requests by logging in and redirecting to
-      # the site root.
+      # Handle login requests.
       if env["PATH_INFO"].to_s =~ /^\/auth/
-        username = @request.params["username"]
-        password = @request.params["password"]
-
-        if auth(username, password)
-          user_salt = salt(64)
-          user_hash = hash(user_salt, password)
-          
-          @cookies[:hash] = user_hash
-
-          tmp = Tempfile.new("hyde")
-          begin
-            tmp.write( [ username, salt ].join(":") )
-          ensure
-            tmp.close
-          end
-        end
+        print "\nlogging in\n"
+        log_in unless logged_in?
       end
 
       # Get array of requested path.

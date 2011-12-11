@@ -4,13 +4,52 @@ require "rack"
 require "hyde"
 
 app = Rack::Builder.new do
+  use Rack::Session::Cookie, secret: "a8H40BAa4lJa164kjG"
   use Rack::ShowExceptions
+
+  Warden::Manager.serialize_into_session do |user|
+    user[:username]
+  end
+
+  Warden::Manager.serialize_from_session do |username|
+    app = Hyde::Application.new
+    app.users[:username]
+  end
+
+  Warden::Strategies.add(:password) do
+    def valid?
+      params[:username] && params[:password]
+    end
+
+    def authenticate!
+      app = Hyde::Application.new
+      user = app.authenticate(params[:username], params[:password])
+      
+      user.nil? ?
+        fail!("Incorrect username or password, please try again.") : success!(user)
+    end
+  end
+
+  use Warden::Manager do |manager|
+    manager.default_strategies :password
+    manager.failure_app = lambda {|env|
+      template = ERB.new(
+        File.open(
+          File.expand_path(
+            File.join( File.dirname(__FILE__), "..", "lib", "hyde", "login.html.erb" )
+          )
+        ).read
+      ).result
+
+      [
+        200,
+        { "Content-Type" => "text/html" },
+        [ template ]
+      ]
+    }
+  end
+
   run Hyde::Application.new
 end
-
-app = Rack::Session::Pool.new(
-  Hyde::Application.new,
-  expire_after: 3600
-)
 
 Rack::Server.start(app: app, Port: 5000)
