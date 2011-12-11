@@ -2,7 +2,8 @@ module Hyde
   class Application
     include Hyde::AuthHelper
     include Hyde::PathHelper
-    
+    include Hyde::TemplateHelper
+
     attr_reader :users
 
     def initialize
@@ -52,6 +53,10 @@ module Hyde
       @filename = @path[3].nil? ? nil : @config.site + "/" + @content + "/" + @path[3]
       @file = File.new(@filename) unless @filename.nil?
       
+      unless current_site
+        notice ""
+      end
+
       # Return Rack compatible response.
       [
         # HTTP status code.
