@@ -43,15 +43,17 @@
         <% end %>
       </nav>
       <div id="main">
-        <form>
-          <label>Title</label>
-          <input type="text" value="<%= @filename %>">
+        <% unless @file.nil? %>
+          <form>
+            <label>Title</label>
+            <input type="text" value="<%= @filename %>">
 
-          <label>Content</label>
-          <textarea><%= @file.read %></textarea>
+            <label>Content</label>
+            <textarea><%= @file.read %></textarea>
 
-          <input type="submit" value="Save">
-        </form>
+            <input type="submit" value="Save">
+          </form>
+        <% end %>
       </div>
     </section>
   </body>

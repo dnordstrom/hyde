@@ -4,7 +4,7 @@ require "hyde/helpers/auth_helper"
 require "hyde/application"
 require "hyde/dsl"
 require "hyde/configuration"
-require "digest/sha2"
+require "hyde/warden"
 require "warden"
 
 Warden::Manager.serialize_into_session do |user|

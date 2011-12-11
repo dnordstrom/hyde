@@ -6,7 +6,7 @@ module Hyde
     attr_reader :users
 
     def initialize
-      @root = File.expand_path(File.dirname(__FILE__), "gui")
+      @root = File.expand_path(File.dirname(__FILE__))
       @gui = Rack::Directory.new @root
       @users = {}
       @configs = []
@@ -38,8 +38,7 @@ module Hyde
       
       # Handle login requests.
       if env["PATH_INFO"].to_s =~ /^\/auth/
-        print "\nlogging in\n"
-        log_in unless logged_in?
+        @env["warden"].authenticate!(:password) unless logged_in?
       end
 
       # Get array of requested path.

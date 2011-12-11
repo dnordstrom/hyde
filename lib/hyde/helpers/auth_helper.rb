@@ -6,9 +6,8 @@ module Hyde
     end
 
     def authenticate(username, password)
-      print "CALLING AUTH".inspect
-      if !@users[username].nil? && @users[username][:password].to_s === password
-        @users[username]
+      if !@users[username.to_sym].nil? && @users[username.to_sym][:password].to_s === password
+        @users[username.to_sym]
       else
         false
       end
