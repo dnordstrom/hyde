@@ -81,6 +81,12 @@ header {
   float: left;
   position: relative;
   background: #eee;
+  background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
+  background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -o-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+  background: linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
   border-bottom: 1px solid #ddd;
   box-shadow: 0 0 5px #ddd;
   color: #999;
@@ -237,4 +243,28 @@ label {
   clear: left;
   display: block;
   width: 6em;
+}
+
+form div {
+  margin: 0 0 10px;
+  float: left;
+  position: relative;
+  width: 100%;
+}
+
+/* Login form */
+
+#login {
+  width: 50%;
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 768px;
+}
+
+#login label {
+  width: 20%;
+}
+
+#login div input {
+  width: 80%;
 }

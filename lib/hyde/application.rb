@@ -1,5 +1,8 @@
 module Hyde
   class Application
+    include Hyde::AuthHelper
+    include Hyde::PathHelper
+
     def initialize
       @root = File.expand_path(File.dirname(__FILE__), "gui")
       @gui = Rack::Directory.new @root
@@ -23,10 +26,34 @@ module Hyde
     end
 
     def call(env)
-      print @users.inspect
+      @request = Rack::Request.new(env)
+      @notice = nil
+      @cookies = {}
+
       # Pass request to static file handler if path matches "/gui".
       return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
       
+      # Handle login requests by logging in and redirecting to
+      # the site root.
+      if env["PATH_INFO"].to_s =~ /^\/auth/
+        username = @request.params["username"]
+        password = @request.params["password"]
+
+        if auth(username, password)
+          user_salt = salt(64)
+          user_hash = hash(user_salt, password)
+          
+          @cookies[:hash] = user_hash
+
+          tmp = Tempfile.new("hyde")
+          begin
+            tmp.write( [ username, salt ].join(":") )
+          ensure
+            tmp.close
+          end
+        end
+      end
+
       # Get array of requested path.
       @path = env['PATH_INFO'].split("/")
 
@@ -47,12 +74,20 @@ module Hyde
         { "Content-Type" => "text/html" },
 
         # Response body.
-        [ load_template("application.html.erb") ]
+        [ current_template ]
       ]
     end
 
     def load_template(file)
       ERB.new( File.new("#{@root}/#{file}").read ).result(binding)
+    end
+    
+    def current_template
+      if logged_in?
+        load_template("application.html.erb")
+      else
+        load_template("login.html.erb")
+      end
     end
   end
 end
