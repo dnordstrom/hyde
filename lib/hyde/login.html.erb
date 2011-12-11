@@ -9,6 +9,11 @@
       <h1>Hyde Control Panel</h1>
     </header>
     <section id="login">
+      <% unless @notice.nil? %>
+        <div id="notice">
+          <%= @notice %>
+        </div>
+      <% end %>
       <form action="/auth" method="post">
         <div>
           <label for="username">Username</label>

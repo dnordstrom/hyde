@@ -6,7 +6,12 @@
   </head>
   <body>
     <header>
-      <h1>Hyde Control Panel</h1>
+      <h1>
+        <ul>
+          <li><a href="/auth" title="Log out">Exit</a></li>
+        </ul>
+        Hyde Control Panel<span>&bull;</span>
+      </h1>
       <nav>
         <ul>
           <li><strong>Sites</strong></li>
@@ -29,6 +34,9 @@
       </nav>
     </header>
     <section>
+      <% unless @notice.nil?  %>
+        <div id="notice"><%= @notice %></div>
+      <% end %>
       <nav>
         <% unless @files.nil? %>
           <ul>

@@ -9,7 +9,7 @@ module Hyde
       if !@users[username.to_sym].nil? && @users[username.to_sym][:password].to_s === password
         @users[username.to_sym]
       else
-        false
+        throw :warden, notice: "Incorrect username or password, please try again."
       end
     end
 

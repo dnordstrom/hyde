@@ -69,6 +69,18 @@ body {
   font-family: Arial, sans-serif;
 }
 
+a {
+  color: #999;
+  -o-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+a:hover {
+  color: #59A80F;
+}
+
 strong {
   font-weight: bold;
 }
@@ -90,20 +102,60 @@ header {
   border-bottom: 1px solid #ddd;
   box-shadow: 0 0 5px #ddd;
   color: #999;
-  line-height: 2.2em;
+  font-size: 0.8em;
+  line-height: 2.6em;
+  height: 2.6em;
   margin: 0 0 2em;
+  overflow: hidden;
   text-shadow: 1px 1px 1px #fff;
   width: 100%;
 }
 
 header h1 {
   float: right;
+  font-size: 1.2em;
   font-weight: bold;
+  overflow: hidden;
   padding: 0 1em;
+  position: relative;
+  text-align: right;
+  width: 320px;
+}
+
+header h1 span {
+  padding: 0 0 0 0.5em;
+}
+
+header h1 a {  
+  text-decoration: none;
+}
+
+header h1 ul {
+  height: 2.2em;
+  display: block;
+  float: right;
+  font-size: 0.8em;
+  line-height: 2.9em;
+  margin: 0 -100% 0 0;
+  position: relative;
+  opacity: 0;
+  overflow: hidden;
+  -o-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+header h1:hover ul {
+  opacity: 1;
+  margin: 0;
+}
+
+header h1 li {
+  padding: 0 0 0 0.6em;
 }
 
 header nav {
-  font-size: 0.9em;
   padding: 0 1em;
   position: relative;
 }
@@ -112,9 +164,13 @@ header nav a {
   color: #777;
   display: block;
   float: left;
-  font-size: 0.8em;
   padding: 0 0.8em;
   text-decoration: none;
+  -o-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -webkit-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+  background: transparent;
 }
 
 header nav a:active {
@@ -122,11 +178,12 @@ header nav a:active {
 }
 
 header nav strong {
-  padding: 0 0.5em 0 0;
+  padding: 0 0.8em 0 0;
 }
 
 header nav a:hover {
-  background: #e0e0e0;
+  background: #fcfcfc;
+  color: #59A80F;
 }
 
 header nav ul {
@@ -164,12 +221,12 @@ section nav a {
 }
 
 section nav a:hover {
-  background: #eee;
-  color: #777;
+  background: #f3f3f3;
+  color: #59a80F;
 }
 
 section nav a.current {
-  border-left: 5px solid red;
+  border-left: 5px solid #59A80F;
 }
 
 section #main {
@@ -227,7 +284,7 @@ input[type="button"] {
 
 input[type="submit"]:hover,
 input[type="button"]:hover {
-  color: #333;
+  color: #59A80F;
   box-shadow: 0 0 5px #ddd;
 }
 
