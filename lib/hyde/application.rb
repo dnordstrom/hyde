@@ -31,15 +31,17 @@ module Hyde
     def call(env)
       @env = env
       @request = Rack::Request.new(env)
-      @notice = nil
-      @cookies = {}
 
-      # Pass request to static file handler if path matches "/gui".
+      # Pass request to static file handler if path begins with "/gui".
       return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
       
       # Handle login requests.
       if env["PATH_INFO"].to_s =~ /^\/auth/
-        @env["warden"].authenticate!(:password) unless logged_in?
+        if logged_in?
+          @env["warden"].logout
+        else
+          @env["warden"].authenticate!(:password)
+        end
       end
 
       # Get array of requested path.
