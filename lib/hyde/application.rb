@@ -8,16 +8,19 @@ module Hyde
 
     def initialize
       @root = File.expand_path(File.dirname(__FILE__))
-      @gui = Rack::Directory.new @root
-      
+      @static = Rack::Directory.new @root
+
       load_configurations
     end
 
     def call(env)
       setup_environment(env)
+      reset_notice
       
-      return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
-      handle_auth if env["PATH_INFO"].to_s =~ /^\/auth/
+      return handle_static if env["PATH_INFO"].to_s =~ /^\/gui/
+      return handle_auth if env["PATH_INFO"].to_s =~ /^\/auth/
+      return handle_post if @request.post?
+      return handle_deploy if env["PATH_INFO"].to_s =~ /\/deploy$/
 
       if logged_in?
         if !current_site
@@ -34,7 +37,13 @@ module Hyde
     def setup_environment(env)
       @env = env
       @request = Rack::Request.new(env)
+
       use_path(env["PATH_INFO"])
+    end
+
+    # Reset notice to current_notice if available, otherwise false.
+    def reset_notice
+      notice (!current_notice ? false : current_notice.to_sym)
     end
 
     # Load configuration blocks and create configuration objects.
@@ -91,6 +100,58 @@ module Hyde
       end
     end
 
+    def handle_static
+      @static.call(@env)
+    end
+
+    def handle_post
+      # Return response with notice if necessary variables aren't available.
+      if params["file"].nil? || params["content"].nil? || !current_site || !current_dir
+        notice "Please fill in both filename and content."
+        return respond
+      end
+      
+      # Save new content.
+      old_path = File.join(current_config.site, current_dir, current_file)
+      File.open(old_path, "w") do |file|
+        file.write( params["content"] )
+      end
+
+      # Move file to new location filename was modified.
+      new_path = File.join(current_config.site, current_dir, params["file"])
+      unless new_path === old_path
+        FileUtils.mv(old_path, new_path)
+        new_uri = File.join("/", current_site, current_dir, params["file"])
+
+        return redirect_to new_uri, :success
+      end
+
+      # Respond as usual if file was not moved.
+      notice :success
+      respond
+    end
+
+    def handle_deploy
+      return redirect_to "/", :deploy_fail unless current_site
+
+      Dir.chdir(current_config.site)
+      output = `jekyll`
+
+      notice "<strong>Deployment procedure executed.</strong><br><br><pre><code>#{output.gsub("\n", "<br>")}</code></pre>"
+
+      respond
+    end
+
+    def redirect_to(path, notice = "")
+      notice = "/#{notice.to_s}" unless notice === ""
+
+      [
+        302,
+        { "Content-Type" => "text", "Location" => "#{path + notice}" },
+        [ "302 Redirect" ]
+      ]
+    end
+
     def current_config
       @configs[current_site].nil? ? false : @configs[current_site]
     end
@@ -98,7 +159,18 @@ module Hyde
     def current_files
       return false unless current_dir
 
-      Dir.glob( File.join(current_config.site, current_dir) )
+      Dir.glob( File.join(current_config.site, current_dir, "*") ).reverse
+    end
+
+    def opened_file
+      return false unless current_file
+
+      File.new( File.join(current_config.site, current_dir, current_file) )
+    end
+
+    # Shortcut to Rack::Request#params.
+    def params
+      @request.params
     end
   end
 end

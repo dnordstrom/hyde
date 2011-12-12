@@ -5,6 +5,10 @@ describe Hyde::Configuration do
     @config = Hyde::Configuration.new :test_site do
       site "/some/path"
 
+      deploy do
+        `echo Deployed`
+      end
+
       content "_posts"
       content "_pages"
     end
@@ -28,6 +32,12 @@ describe Hyde::Configuration do
         "_posts",
         "_pages"
       ]
+    end
+  end
+
+  describe "#deploy" do
+    it "should store a block containing deployment procedures" do
+      @config.deploy.should === "Deployed"
     end
   end
 

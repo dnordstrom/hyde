@@ -3,7 +3,7 @@ module Hyde
     def use_path(path)
       # Specify indexes of path fragments, e.g. site
       # identifier is in first part of URL ( /:site/... )
-      @parts = { site: 0, dir: 1, file: 2 }
+      @parts = { site: 0, dir: 1, file: 2, notice: 3 }
 
       # Turn full path into array of path fragments, and
       # use Array#shift to remove empty first element.

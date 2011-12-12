@@ -8,6 +8,9 @@
     <header>
       <h1>
         <ul>
+          <% if current_site %>
+            <li><a href="/<%= current_site %>/deploy" title="Deploy <%= current_site.gsub("_", ".") %>">Deploy</a></li>
+          <% end %>
           <li><a href="/auth" title="Log out">Exit</a></li>
         </ul>
         Hyde Control Panel<span>&bull;</span>
@@ -16,7 +19,7 @@
       <nav>
         <ul>
           <li><strong>Sites</strong></li>
-          <% @configs.each do |config| print config.inspect %>
+          <% @configs.each do |site, config| %>
             <li>
               <a href="/<%= config.title %>">
                 <%= config.title.gsub("_", ".") %>
@@ -50,8 +53,8 @@
           <ul>
             <% current_files.each do |filename| %>
               <li>
-                <a href="<%= File.join(current_site, current_dir, current_file) %>">
-                  <%= filename %>
+                <a href="/<%= File.join(current_site, current_dir, File.basename(filename)) %>">
+                  <%= File.basename(filename) %>
                 </a>
               </li>
             <% end %>
@@ -61,12 +64,12 @@
 
       <div id="main">
         <% if opened_file %>
-          <form>
-            <label>Title</label>
-            <input type="text" value="<%= current_file %>">
+          <form action="/<%= File.join(current_site, current_dir, current_file)  %>" method="post">
+            <label for="file">File</label>
+            <input type="text" name="file" id="file" value="<%= current_file %>">
 
-            <label>Content</label>
-            <textarea><%= opened_file.read %></textarea>
+            <label for="content">Content</label>
+            <textarea name="content" id="content"><%= opened_file.read %></textarea>
 
             <input type="submit" value="Save">
           </form>
