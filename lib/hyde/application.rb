@@ -9,12 +9,40 @@ module Hyde
     def initialize
       @root = File.expand_path(File.dirname(__FILE__))
       @gui = Rack::Directory.new @root
-      @users = {}
-      @configs = []
-      @templates = {}
-      config_blocks = {}
+      
+      load_configurations
+    end
 
-      # Load configuration files.
+    def call(env)
+      setup_environment(env)
+      
+      return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
+      handle_auth if env["PATH_INFO"].to_s =~ /^\/auth/
+
+      if logged_in?
+        if !current_site
+          notice "Please <strong>select a site</strong> using the menu bar."
+        elsif !current_dir
+          notice "Please <strong>select a content type</strong> using the menu bar."
+        end
+      end
+
+      respond
+    end
+
+    # Save env, set path, and create a Rack::Request object.
+    def setup_environment(env)
+      @env = env
+      @request = Rack::Request.new(env)
+      use_path(env["PATH_INFO"])
+    end
+
+    # Load configuration blocks and create configuration objects.
+    def load_configurations
+      @users = {}
+      @configs = {}
+      config_blocks = {}
+      
       Dir.glob("hyde/*.rb").each do |config|
         results = Hyde::DSL.load File.new(config)
 
@@ -22,44 +50,13 @@ module Hyde
         @users.merge!( results[:users] )
       end
 
-      # Create configuration objects from loaded blocks.
       config_blocks.each do |site, block|
-        @configs << Hyde::Configuration.new(site, &block)
+        @configs[site] = Hyde::Configuration.new(site, &block)
       end
     end
 
-    def call(env)
-      @env = env
-      @request = Rack::Request.new(env)
-
-      # Pass request to static file handler if path begins with "/gui".
-      return @gui.call(env) if env["PATH_INFO"].to_s =~ /^\/gui/
-      
-      # Handle login requests.
-      if env["PATH_INFO"].to_s =~ /^\/auth/
-        if logged_in?
-          @env["warden"].logout
-        else
-          @env["warden"].authenticate!(:password)
-        end
-      end
-
-      # Get array of requested path.
-      @path = env['PATH_INFO'].split("/")
-
-      # Get selected site and its contents.
-      @site = @path[1].nil? ? nil : @path[1]
-      @config = @configs.select {|config| config.title === @site}.first
-      @content = @path[2].nil? ? nil : @path[2]
-      @files = @config.nil? || @content.nil? ? nil : @config.files(@content)
-      @filename = @path[3].nil? ? nil : @config.site + "/" + @content + "/" + @path[3]
-      @file = File.new(@filename) unless @filename.nil?
-      
-      unless current_site
-        notice ""
-      end
-
-      # Return Rack compatible response.
+    # Generate Rack response array.
+    def respond
       [
         # HTTP status code.
         200,
@@ -72,16 +69,36 @@ module Hyde
       ]
     end
 
+    # Load ERB template file with app binding, and return result.
     def load_template(file)
       ERB.new( File.new("#{@root}/#{file}").read ).result(binding)
     end
     
+    # Return appropriate template result.
     def current_template
       if logged_in?
         load_template("application.html.erb")
       else
         load_template("login.html.erb")
       end
+    end
+
+    def handle_auth
+      if logged_in?
+        @env["warden"].logout
+      else
+        @env["warden"].authenticate!(:password)
+      end
+    end
+
+    def current_config
+      @configs[current_site].nil? ? false : @configs[current_site]
+    end
+
+    def current_files
+      return false unless current_dir
+
+      Dir.glob( File.join(current_config.site, current_dir) )
     end
   end
 end

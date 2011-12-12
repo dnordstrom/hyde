@@ -12,57 +12,67 @@
         </ul>
         Hyde Control Panel<span>&bull;</span>
       </h1>
+
       <nav>
         <ul>
           <li><strong>Sites</strong></li>
-          <% @configs.each do |config| %>
-            <li><a href="/<%= config.title %>" class="<%= "current" if !@config.nil? && @config.site === config.site %>"><%= config.title.gsub("_", ".") %></a></li>
+          <% @configs.each do |config| print config.inspect %>
+            <li>
+              <a href="/<%= config.title %>">
+                <%= config.title.gsub("_", ".") %>
+              </a>
+            </li>
           <% end %>
         </ul>
-        <% unless @config.nil? %>
+
+        <% if current_config %>
           <ul>
             <li><strong>Content</strong></li>
-            <% @config.content.each do |content| %>
+            <% current_config.content.each do |content| %>
               <li>
-                <a href="/<%= @config.title %>/<%= content %>">
+                <a href="/<%= current_config.title %>/<%= content %>">
                   <%= content.gsub("_", "").capitalize %>
-                </a>
-              </li>
-            <% end %>
-          </ul>
-        <% end  %>
-      </nav>
-    </header>
-    <section>
-      <% unless @notice.nil?  %>
-        <div id="notice"><%= @notice %></div>
-      <% end %>
-      <nav>
-        <% unless @files.nil? %>
-          <ul>
-            <% @files.each do |file| %>
-              <li>
-                <a href="<%= "/#{@config.title}/#{@content}/#{file}" %>">
-                  <%= file %>
                 </a>
               </li>
             <% end %>
           </ul>
         <% end %>
       </nav>
+    </header>
+    
+    <section>
+      <% if notice %>
+        <div id="notice"><%= notice %></div>
+      <% end %>
+
+      <nav>
+        <% if current_files %>
+          <ul>
+            <% current_files.each do |filename| %>
+              <li>
+                <a href="<%= File.join(current_site, current_dir, current_file) %>">
+                  <%= filename %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </nav>
+
       <div id="main">
-        <% unless @file.nil? %>
+        <% if opened_file %>
           <form>
             <label>Title</label>
-            <input type="text" value="<%= @filename %>">
+            <input type="text" value="<%= current_file %>">
 
             <label>Content</label>
-            <textarea><%= @file.read %></textarea>
+            <textarea><%= opened_file.read %></textarea>
 
             <input type="submit" value="Save">
           </form>
         <% end %>
       </div>
     </section>
+
   </body>
 </html>

@@ -1,7 +1,8 @@
 module Hyde
   module TemplateHelper
     def notice(new_notice = nil)
-      new_notice.nil? ? @notice : @notice = new_notice
+      @notice = new_notice unless new_notice.nil?
+      @notice
     end
   end
 end

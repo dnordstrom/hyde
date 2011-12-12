@@ -1,7 +1,7 @@
 module Hyde
-  class Warden
+  class WardenSetup
     class << self
-      def setup
+      def run
         Warden::Manager.serialize_into_session do |user|
           user[:username].to_s
         end
@@ -18,7 +18,6 @@ module Hyde
 
           def authenticate!
             app = Hyde::Application.new
-            print params.inspect
             user = app.authenticate(params["username"], params["password"])
             
             user.nil? ?

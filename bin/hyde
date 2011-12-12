@@ -4,12 +4,15 @@ require "rack"
 require "hyde"
 
 app = Rack::Builder.new do
+  Hyde::WardenSetup.run
+  
   use Rack::Session::Cookie, secret: "a8H40BAa4lJa164kjG"
   use Rack::ShowExceptions
   use Warden::Manager do |manager|
     manager.default_strategies :password
     manager.failure_app = lambda {|env|
-      @notice = env["warden.options"]["notice"]
+      self.extend(Hyde::TemplateHelper)
+      notice "Incorrect username or password, please try again."
 
       template = ERB.new(
         File.open(
@@ -17,7 +20,7 @@ app = Rack::Builder.new do
             File.join( File.dirname(__FILE__), "..", "lib", "hyde", "login.html.erb" )
           )
         ).read
-      ).result
+      ).result(binding)
 
       [
         200,

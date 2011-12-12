@@ -104,7 +104,6 @@ header {
   color: #999;
   font-size: 0.8em;
   line-height: 2.6em;
-  height: 2.6em;
   margin: 0 0 2em;
   overflow: hidden;
   text-shadow: 1px 1px 1px #fff;
@@ -229,7 +228,17 @@ section nav a.current {
   border-left: 5px solid #59A80F;
 }
 
-section #main {
+#notice {
+  width: 90%;
+  padding: 2em 2em 2.2em;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  text-align: center;
+  margin: 0 auto 3em;
+  color: #777;
+}
+
+#main {
   float: left;
   margin: 0 0 0 5%;
   width: 60%;
