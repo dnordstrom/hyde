@@ -1,6 +1,5 @@
 module Hyde
   class Application
-    include Hyde::AuthHelper
     include Hyde::PathHelper
     include Hyde::TemplateHelper
     include Hyde::MiddlewareHelper
@@ -9,6 +8,7 @@ module Hyde
 
     def initialize
       use Hyde::StaticManager, /^\/gui/
+      use Hyde::AuthManager, /^\/auth/
 
       load_configurations
     end
@@ -19,11 +19,10 @@ module Hyde
       
       return middleware if middleware_responds?
 
-      return handle_auth if env["PATH_INFO"].to_s =~ /^\/auth/
       return handle_post if @request.post?
       return handle_deploy if env["PATH_INFO"].to_s =~ /\/deploy$/
 
-      if logged_in?
+      if env["warden"].authenticated?
         if !current_site
           notice "Please <strong>select a site</strong> using the menu bar."
         elsif !current_dir
@@ -77,29 +76,6 @@ module Hyde
         # Response body.
         [ current_template ]
       ]
-    end
-
-    # Load ERB template file with app binding, and return result.
-    def load_template(file)
-      root = File.expand_path( File.dirname(__FILE__) )
-      ERB.new( File.new("#{root}/#{file}").read ).result(binding)
-    end
-    
-    # Return appropriate template result.
-    def current_template
-      if logged_in?
-        load_template("application.html.erb")
-      else
-        load_template("login.html.erb")
-      end
-    end
-
-    def handle_auth
-      if logged_in?
-        @env["warden"].logout
-      else
-        @env["warden"].authenticate!(:password)
-      end
     end
 
     def handle_post

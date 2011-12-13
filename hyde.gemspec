@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Daniel Nordstrom"]
   s.email       = ["d@nintera.com"]
   s.homepage    = ""
-  s.summary     = %q{Control panel for Jekyll.}
-  s.description = %q{A simple control panel to manage Jekyll powered websites.}
+  s.summary     = %q{Your Friendly Neighborhood Jekyll Manager.}
+  s.description = %q{A simple control panel for managing your Jekyll powered sites.}
 
   s.rubyforge_project = "hyde"
 
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   s.add_development_dependency "rspec"
+  s.add_development_dependency "rdoc"
   s.add_runtime_dependency "rack"
   s.add_runtime_dependency "warden"
 end
