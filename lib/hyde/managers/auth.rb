@@ -1,5 +1,5 @@
 module Hyde
-  module Manager
+  module Managers
     class Auth
       # Authentication method used as the Warden :password
       # strategy. Returns user object (a Hash) on success, and

@@ -7,8 +7,8 @@ module Hyde
     attr_reader :users
 
     def initialize
-      use Hyde::Manager::Static, /^\/gui/
-      use Hyde::Manager::Auth, /^\/auth/
+      use Hyde::Managers::Static, /^\/gui/
+      use Hyde::Managers::Auth, /^\/auth/
 
       load_configurations
     end

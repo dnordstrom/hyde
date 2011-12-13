@@ -1,6 +1,6 @@
 module Hyde
-  module Manager
-    class StaticManager
+  module Managers
+    class Static
       def call(env)
         Rack::Directory.new(
           File.join(
