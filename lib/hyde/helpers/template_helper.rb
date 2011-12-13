@@ -10,7 +10,7 @@ module Hyde
         if new_notice.is_a? Symbol
           t(new_notice)
         else
-          new_notice.nil? @notice : new_notice
+          new_notice.nil? ? @notice : new_notice
         end
       )
     end
