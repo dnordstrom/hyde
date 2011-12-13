@@ -18,7 +18,7 @@ app = Rack::Builder.new do
         File.open(
           File.expand_path(
             File.join(
-              File.dirname(__FILE__), "..", "lib", "hyde", "templates", "login.html.erb"
+              File.dirname(__FILE__), "../lib/hyde/templates/login.html.erb"
             )
           )
         ).read

@@ -4,7 +4,7 @@ module Hyde
       def call(env)
         Rack::Directory.new(
           File.join(
-            File.expand_path( File.dirname(__FILE__) ), "..", "templates"
+            File.expand_path(File.dirname(__FILE__)), ".."
           )
         ).call(env)
       end

@@ -7,8 +7,7 @@ module Hyde
         end
 
         Warden::Manager.serialize_from_session do |username|
-          app = Hyde::Application.new
-          app.users[username.to_sym]
+          Hyde::DSL.load.users[username.to_sym]
         end
 
         Warden::Strategies.add(:password) do
@@ -17,7 +16,7 @@ module Hyde
           end
 
           def authenticate!
-            app = Hyde::Application.new
+            app = Hyde::Managers::Auth.new
             user = app.authenticate(params["username"], params["password"])
             
             user.nil? ?

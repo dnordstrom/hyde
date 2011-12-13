@@ -6,6 +6,8 @@ module Hyde
     #
     # notice :save_success #=> "Successfully saved your file."
     def notice(new_notice = nil)
+      @notice ||= false
+
       @notice = (
         if new_notice.is_a? Symbol
           t(new_notice)
@@ -31,19 +33,35 @@ module Hyde
       end
     end
 
-   # Load appropriate template based on authentication status.
+   # Loads appropriate template based on authentication status.
     def current_template
-      if logged_in?
+      if @env["warden"].authenticated?
         load_template("application.html.erb")
       else
         load_template("login.html.erb")
       end
     end
 
-    # Load ERB template file with current class's binding, and return result.
+    # Loads ERB template file with current class's binding, and return result.
     def load_template(file)
-      root = File.expand_path( File.dirname(__FILE__), "templates" )
+      root = File.join( File.expand_path(File.dirname(__FILE__)), "../templates" )
       ERB.new( File.new("#{root}/#{file}").read ).result(binding)
+    end
+
+    def current_config
+      @env["hyde.configs"][current_site].nil? ? false : @env["hyde.config"][current_site]
+    end
+
+    def current_files
+      return false unless current_dir
+
+      Dir.glob( File.join(current_config.site, current_dir, "*") ).reverse
+    end
+
+    def opened_file
+      return false unless current_file
+
+      File.new( File.join(current_config.site, current_dir, current_file) )
     end
   end
 end

@@ -19,7 +19,7 @@
       <nav>
         <ul>
           <li><strong>Sites</strong></li>
-          <% @configs.each do |site, config| %>
+          <% @env["hyde.configs"].each do |site, config| %>
             <li>
               <a href="/<%= config.title %>">
                 <%= config.title.gsub("_", ".") %>

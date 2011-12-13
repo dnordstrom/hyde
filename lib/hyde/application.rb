@@ -4,13 +4,11 @@ module Hyde
     include Hyde::TemplateHelper
     include Hyde::MiddlewareHelper
 
-    attr_reader :users
-
     def initialize
       use Hyde::Managers::Static, /^\/gui/
       use Hyde::Managers::Auth, /^\/auth/
 
-      load_configurations
+      Hyde::DSL.load
     end
 
     def call(env)
@@ -19,7 +17,7 @@ module Hyde
       
       return middleware if middleware_responds?
 
-      return handle_post if @request.post?
+      return handle_post if @env["hyde.request"].post?
       return handle_deploy if env["PATH_INFO"].to_s =~ /\/deploy$/
 
       if env["warden"].authenticated?
@@ -36,7 +34,9 @@ module Hyde
     # Save env, set path, and create a Rack::Request object.
     def setup_environment(env)
       @env = env
-      @request = Rack::Request.new(env)
+      @env["hyde.users"] = Hyde::DSL.load.users
+      @env["hyde.configs"] = Hyde::DSL.load.configs
+      @env["hyde.request"] = Rack::Request.new(env)
 
       use_path(env["PATH_INFO"])
     end
@@ -44,24 +44,6 @@ module Hyde
     # Reset notice to current_notice if available, otherwise false.
     def reset_notice
       notice (!current_notice ? false : current_notice.to_sym)
-    end
-
-    # Load configuration blocks and create configuration objects.
-    def load_configurations
-      @users = {}
-      @configs = {}
-      config_blocks = {}
-      
-      Dir.glob("hyde/*.rb").each do |config|
-        results = Hyde::DSL.load File.new(config)
-
-        config_blocks.merge!( results[:configs] )
-        @users.merge!( results[:users] )
-      end
-
-      config_blocks.each do |site, block|
-        @configs[site] = Hyde::Configuration.new(site, &block)
-      end
     end
 
     # Generate Rack response array.
@@ -127,7 +109,7 @@ module Hyde
     end
 
     def current_config
-      @configs[current_site].nil? ? false : @configs[current_site]
+      @env["hyde.configs"][current_site].nil? ? false : @env["hyde.config"][current_site]
     end
 
     def current_files
@@ -144,7 +126,7 @@ module Hyde
 
     # Shortcut to Rack::Request#params.
     def params
-      @request.params
+      @env["hyde.request"].params
     end
   end
 end
