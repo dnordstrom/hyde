@@ -1,0 +1,32 @@
+<DOCTYPE !html>
+<html>
+  <head>
+    <title>Hyde - Your Friendly Neighborhood Jekyll Manager</title>
+    <link rel="stylesheet" type="text/css" href="/gui/application.css">
+  </head>
+  <body>
+    <header>
+      <h1>Hyde Control Panel</h1>
+    </header>
+    <section id="login">
+      <% if notice %>
+        <div id="notice">
+          <%= notice %>
+        </div>
+      <% end %>
+      <form action="/auth" method="post">
+        <div>
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username">
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password">
+        </div>
+        
+        <input type="submit" value="Log in">
+      </form>
+    </section>
+  </body>
+</head>
