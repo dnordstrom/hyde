@@ -3,7 +3,7 @@ require "hyde"
 describe Hyde::Configuration do
   before do
     @config = Hyde::Configuration.new :test_site do
-      site "/some/path"
+      site "/tmp"
 
       deploy do
         `echo Deployed`
@@ -22,7 +22,7 @@ describe Hyde::Configuration do
 
   describe "#site" do
     it "should store path to Jekyll root" do
-      @config.site.should === "/some/path"
+      @config.site.should === "/tmp"
     end
   end
 
@@ -36,8 +36,14 @@ describe Hyde::Configuration do
   end
 
   describe "#deploy" do
-    it "should store a block containing deployment procedures" do
-      @config.deploy.should === "Deployed"
+    it "should store a deployment block" do
+      @config.instance_variable_get(:@deploy).class.should == Proc
+    end
+  end
+
+  describe "#run_deploy" do
+    it "should run stored configuration block" do
+      @config.run_deploy.should =~ /^Deployed/
     end
   end
 

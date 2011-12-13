@@ -40,5 +40,21 @@ module Hyde
 
       filenames.reverse
     end
+
+    def deploy(&block)
+      @deploy = block
+    end
+
+    def run_deploy
+      Dir.chdir(site)
+
+      if @deploy.nil?
+        output = `jekyll`
+      else
+        output = @deploy.call
+      end
+
+      output
+    end
   end
 end
