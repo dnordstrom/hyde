@@ -1,13 +1,11 @@
 module Hyde
   class StaticManager
     def call(env)
-      @dir = Rack::Directory.new(
+      Rack::Directory.new(
         File.join(
-          File.expand_path( File.dirname(__FILE__) ),
-          "gui"
+          File.expand_path( File.dirname(__FILE__) )
         )
-      )
-      @dir.call(env)
+      ).call(env)
     end
   end
 end

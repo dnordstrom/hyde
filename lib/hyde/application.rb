@@ -8,7 +8,7 @@ module Hyde
     attr_reader :users
 
     def initialize
-      use Hyde::StaticManager, /^\gui/
+      use Hyde::StaticManager, /^\/gui/
 
       load_configurations
     end
@@ -81,7 +81,8 @@ module Hyde
 
     # Load ERB template file with app binding, and return result.
     def load_template(file)
-      ERB.new( File.new("#{@root}/#{file}").read ).result(binding)
+      root = File.expand_path( File.dirname(__FILE__) )
+      ERB.new( File.new("#{root}/#{file}").read ).result(binding)
     end
     
     # Return appropriate template result.
