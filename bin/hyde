@@ -17,7 +17,9 @@ app = Rack::Builder.new do
       template = ERB.new(
         File.open(
           File.expand_path(
-            File.join( File.dirname(__FILE__), "..", "lib", "hyde", "login.html.erb" )
+            File.join(
+              File.dirname(__FILE__), "..", "lib", "hyde", "templates", "login.html.erb"
+            )
           )
         ).read
       ).result(binding)
