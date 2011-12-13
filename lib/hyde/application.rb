@@ -3,12 +3,12 @@ module Hyde
     include Hyde::AuthHelper
     include Hyde::PathHelper
     include Hyde::TemplateHelper
+    include Hyde::MiddlewareHelper
 
     attr_reader :users
 
     def initialize
-      @root = File.expand_path(File.dirname(__FILE__))
-      @static = Rack::Directory.new @root
+      use Hyde::StaticManager, /^\gui/
 
       load_configurations
     end
@@ -17,7 +17,8 @@ module Hyde
       setup_environment(env)
       reset_notice
       
-      return handle_static if env["PATH_INFO"].to_s =~ /^\/gui/
+      return middleware if middleware_responds?
+
       return handle_auth if env["PATH_INFO"].to_s =~ /^\/auth/
       return handle_post if @request.post?
       return handle_deploy if env["PATH_INFO"].to_s =~ /\/deploy$/
@@ -98,10 +99,6 @@ module Hyde
       else
         @env["warden"].authenticate!(:password)
       end
-    end
-
-    def handle_static
-      @static.call(@env)
     end
 
     def handle_post
