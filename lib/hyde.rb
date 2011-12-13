@@ -1,6 +1,5 @@
 require "hyde/version"
 require "hyde/helpers/path_helper"
-require "hyde/helpers/auth_helper"
 require "hyde/helpers/template_helper"
 require "hyde/helpers/middleware_helper"
 require "hyde/managers/static"
