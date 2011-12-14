@@ -6,7 +6,10 @@ module Hyde
     # application of available middleware. Takes a middleware
     # class (which must have a <code>call</code> instance method)
     # and a <code>Regexp</code> object (which will be matched
-    # against the requested path) as arguments.
+    # against the requested path) as arguments. Alternatively you
+    # can give a String argument, which will be
+    # instance_eval()'uated in the context of a Rack::Request
+    # object.
     #
     # E.g., the following will call
     # <code>StaticManager#call</code> when request path begins
@@ -31,14 +34,25 @@ module Hyde
     end
 
     # Checks if any middleware regular expression matches the
-    # requested path. If a match is found, an instance of the
+    # requested path if condition is a Regexp. If condition is a
+    # String, it is instance_eval()'uated in context of a
+    # Rack::Request object. If a match is found (evaluation
+    # returns true, or Regexp matches path), an instance of the
     # class is stored in <code>@env["hyde.middleware"]</code>.
     def middleware_responds?
       @middleware.each do |ware|
-        unless ware[:condition].match(@env["PATH_INFO"]).nil?
-          @env["hyde.middleware"] = ware[:manager].new
-print "\n\nFound middleware\n\n"
+        if ware[:condition].is_a? String
+          @req = Rack::Request.new(@env)
+          result = @req.instance_eval(ware[:condition])
+          @env["hyde.middleware"] = ware[:manager].new if result
+
           return true
+        elsif ware[:condition].is_a? Regexp
+          unless ware[:condition].match(@env["PATH_INFO"]).nil?
+            @env["hyde.middleware"] = ware[:manager].new
+
+            return true
+          end
         end
       end
 

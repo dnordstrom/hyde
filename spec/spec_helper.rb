@@ -1,6 +1,9 @@
+require "rack"
+require "cgi"
+
 module SpecHelper
   def sample_site
-    :test_site
+    "test_site"
   end
 
   def sample_config
@@ -31,7 +34,8 @@ module RequestHelper
     env = get_environment(
       "REQUEST_METHOD"  => "POST",
       "PATH_INFO"       => path,
-      "QUERY_STRING"    => parse(data)
+      "QUERY_STRING"    => parse(data),
+      "hyde.configs"    => { sample_site => sample_config }
     )
     
     @app.call(env)

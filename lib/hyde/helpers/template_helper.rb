@@ -17,6 +17,11 @@ module Hyde
       )
     end
 
+    # Reset notice to current_notice if available, otherwise false.
+    def reset_notice
+      notice (!current_notice ? false : current_notice.to_sym)
+    end
+
     # Returns predefined text snippets based on Symbol argument.
     #
     # TODO: Add localization.
@@ -49,7 +54,7 @@ module Hyde
     end
 
     def current_config
-      @env["hyde.configs"][current_site].nil? ? false : @env["hyde.config"][current_site]
+      @env["hyde.configs"][current_site].nil? ? false : @env["hyde.configs"][current_site]
     end
 
     def current_files
