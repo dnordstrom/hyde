@@ -4,9 +4,9 @@ require_relative "../spec_helper"
 include SpecHelper
 include RequestHelper
 
-describe Hyde::Managers::File do
+describe Hyde::Managers::Post do
   before do
-    @app = Hyde::Managers::File.new
+    @app = Hyde::Managers::Post.new
   end
 
   describe "#call" do
@@ -16,8 +16,8 @@ describe Hyde::Managers::File do
           "file" => "a_post.md",
           "content" => "Some text in file."
         }
-
-        File.any_instance.should_receive(:open).with("/tmp/test_site/_posts/a_post.md", "w").and_return(true)
+        
+        File.should_receive(:open).with("/tmp/test_site/_posts/a_post.md", "w").and_return(true)
       end
     end
   end

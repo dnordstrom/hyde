@@ -1,5 +1,6 @@
 require "rack"
 require "cgi"
+require "fakefs"
 
 module SpecHelper
   def sample_site
