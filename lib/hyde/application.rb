@@ -2,6 +2,7 @@ module Hyde
   class Application
     include Hyde::PathHelper
     include Hyde::TemplateHelper
+    include Hyde::ResponseHelper
     include Hyde::MiddlewareHelper
 
     def initialize
@@ -28,7 +29,7 @@ module Hyde
         end
       end
 
-      respond
+      respond_with current_template
     end
 
     # Save env, set path, and create a Rack::Request object.
@@ -46,25 +47,11 @@ module Hyde
       notice (!current_notice ? false : current_notice.to_sym)
     end
 
-    # Generate Rack response array.
-    def respond
-      [
-        # HTTP status code.
-        200,
-
-        # Content type header.
-        { "Content-Type" => "text/html" },
-
-        # Response body.
-        [ current_template ]
-      ]
-    end
-
     def handle_post
       # Return response with notice if necessary variables aren't available.
       if params["file"].nil? || params["content"].nil? || !current_site || !current_dir
         notice "Please fill in both filename and content."
-        return respond
+        return respond_with current_template
       end
       
       # Save new content.
@@ -84,7 +71,7 @@ module Hyde
 
       # Respond as usual if file was not moved.
       notice :success
-      respond
+      respond_with current_template
     end
 
     def handle_deploy
@@ -95,21 +82,11 @@ module Hyde
 
       notice "<strong>Deployment procedure executed.</strong><br><br><pre><code>#{output.gsub("\n", "<br>")}</code></pre>"
 
-      respond
-    end
-
-    def redirect_to(path, notice = "")
-      notice = "/#{notice.to_s}" unless notice === ""
-
-      [
-        302,
-        { "Content-Type" => "text", "Location" => "#{path + notice}" },
-        [ "302 Redirect" ]
-      ]
+      respond_with current_template
     end
 
     def current_config
-      @env["hyde.configs"][current_site].nil? ? false : @env["hyde.config"][current_site]
+      @env["hyde.configs"][current_site].nil? ? false : @env["hyde.configs"][current_site]
     end
 
     def current_files
