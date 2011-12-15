@@ -7,6 +7,7 @@ module Hyde
     include Hyde::MiddlewareHelper
 
     def initialize
+      use Hyde::Managers::Deploy, /^\/*\/deploy$/
       use Hyde::Managers::Static, /^\/gui/
       use Hyde::Managers::Auth, /^\/auth/
       use Hyde::Managers::Post, "post?"
@@ -24,32 +25,11 @@ module Hyde
 
       if env["warden"].authenticated?
         if !current_site
-          notice "Please <strong>select a site</strong> using the menu bar."
+          notice :select_site
         elsif !current_dir
-          notice "Please <strong>select a content type</strong> using the menu bar."
+          notice :select_dir
         end
       end
-
-      respond_with current_template
-    end
-
-    # Save env, set path, and create a Rack::Request object.
-    def setup_environment(env)
-      @env = env
-      @env["hyde.users"] = Hyde::DSL.load.users
-      @env["hyde.configs"] = Hyde::DSL.load.configs
-      @env["hyde.request"] = Rack::Request.new(env)
-
-      use_path(env["PATH_INFO"])
-    end
-
-    def handle_deploy
-      return redirect_to "/", :deploy_fail unless current_site
-
-      Dir.chdir(current_config.site)
-      output = `jekyll`
-
-      notice "<strong>Deployment procedure executed.</strong><br><br><pre><code>#{output.gsub("\n", "<br>")}</code></pre>"
 
       respond_with current_template
     end

@@ -27,6 +27,10 @@ module Hyde
     # TODO: Add localization.
     def t(label)
       notice case label
+      when :sites
+        "Sites"
+      when :content
+        "Content"
       when :save_success
         "Successfully saved your file."
       when :save_fail
@@ -35,6 +39,8 @@ module Hyde
         "Please <strong>select a site</strong> using the menu bar."
       when :select_dir
         "Please <strong>select a content type</strong> using the menu bar."
+      when :deploy_fail
+        "Could not deploy, please <strong>select a site</strong> or submit a bug report."
       end
     end
 

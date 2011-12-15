@@ -19,7 +19,7 @@
 
       <nav>
         <ul>
-          <li><strong>Sites</strong></li>
+          <li><strong><%= t(:sites) %></strong></li>
           <% @env["hyde.configs"].each do |site, config| %>
             <li>
               <a href="/<%= config.title %>">
@@ -31,7 +31,7 @@
 
         <% if current_config %>
           <ul>
-            <li><strong>Content</strong></li>
+            <li><strong><%= t(:content) %></strong></li>
             <% current_config.content.each do |content| %>
               <li>
                 <a href="/<%= current_config.title %>/<%= content %>">
