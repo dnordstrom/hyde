@@ -52,7 +52,6 @@ module Hyde
         elsif ware[:condition].is_a? Regexp
           unless ware[:condition].match(@env["PATH_INFO"]).nil?
             @env["hyde.middleware"] = ware[:manager].new
-            print "\n\nAdded middleware #{ware[:manager].to_s}\n\n"
             return true
           end
         end
