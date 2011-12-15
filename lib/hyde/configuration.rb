@@ -26,12 +26,21 @@ module Hyde
       return @title if title.nil?
       @title = title
     end
-
+    
+    # Returns array of filenames within the specified content
+    # directory, within the site root. Argument could be a
+    # Symbol, String or anything else that has a to_s method.
+    #
+    # Example:
+    #
+    #   Hyde::Configuration#files("_posts")
+    #   => ["2012-01-01-a-post.md", "2012-01-02-other-post.md"]
+    #
     def files(dir)
       filenames = []
 
       @content.each do |path|
-        if path =~ /#{dir}$/ 
+        if path =~ /^#{dir.to_s}$/ 
           Dir.glob("#{site}/#{path}/*").each do |file|
             filenames << File.basename(file)
           end
