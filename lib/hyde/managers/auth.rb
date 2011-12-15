@@ -3,6 +3,7 @@ module Hyde
     class Auth
       include Hyde::PathHelper
       include Hyde::TemplateHelper
+      include Hyde::RequestHelper
       include Hyde::ResponseHelper
 
       # Authentication method used as the Warden :password
@@ -12,10 +13,12 @@ module Hyde
       def authenticate(username, password)
         user = Hyde::DSL.load.users[username.to_sym]
 
+        print "\n\n#{user.inspect}\n\n"
+
         if !user.nil? && user[:password].to_s === password
           user
         else
-          throw :warden, notice: "Incorrect username or password, please try again."
+          throw :warden
         end
       end
       
@@ -23,8 +26,7 @@ module Hyde
       # logged in, he is instead logged out. Both actions are using
       # the same path (e.g. /^\/auth/) for convenience.
       def call(env)
-        @env = env
-        use_path( @env["PATH_INFO"] )
+        setup_environment(env)
 
         if env["warden"].authenticated?
           env["warden"].logout

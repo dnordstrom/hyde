@@ -10,8 +10,7 @@ app = Rack::Builder.new do
   use Rack::ShowExceptions
   use Warden::Manager do |manager|
     manager.default_strategies :password
-    manager.failure_app = Hyde::Managers::Auth
-    lambda {|env|
+    manager.failure_app = lambda {|env|
       self.extend(Hyde::TemplateHelper)
       notice "Incorrect username or password, please try again."
 

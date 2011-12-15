@@ -9,7 +9,7 @@ module Hyde
     def initialize
       use Hyde::Managers::Static, /^\/gui/
       use Hyde::Managers::Auth, /^\/auth/
-      use Hyde::Managers::File, "post?"
+      use Hyde::Managers::Post, "post?"
 
       Hyde::DSL.load
     end

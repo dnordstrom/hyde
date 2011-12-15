@@ -44,9 +44,11 @@ module Hyde
         if ware[:condition].is_a? String
           @req = Rack::Request.new(@env)
           result = @req.instance_eval(ware[:condition])
-          @env["hyde.middleware"] = ware[:manager].new if result
-
-          return true
+          
+          if result === true
+            @env["hyde.middleware"] = ware[:manager].new
+            return true
+          end
         elsif ware[:condition].is_a? Regexp
           unless ware[:condition].match(@env["PATH_INFO"]).nil?
             @env["hyde.middleware"] = ware[:manager].new

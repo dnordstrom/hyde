@@ -24,8 +24,8 @@ module Hyde
       Dir.glob("hyde/*.rb").each do |config|
         dsl = Hyde::DSL.execute( File.new(config) )
 
-        config_blocks.merge!(dsl.configs)
-        users.merge!(dsl.configs)
+        config_blocks.merge!(dsl.configs) unless dsl.configs.nil?
+        users.merge!(dsl.users) unless dsl.users.nil?
       end
 
       config_blocks.each do |site, block|
