@@ -1,5 +1,7 @@
 module Hyde
   class WardenSetup
+    # Contains a single class method for setting up Warden
+    # authentication.
     class << self
       # Sets up Warden authentication strategy that uses
       # configuration files stored on filesystem, and provides
