@@ -4,6 +4,7 @@ module Hyde
     # must have leading slash for helpers to work properly.
     #
     # Example:
+    #
     #   use_path("/my_site/_posts")
     #    => ["my_site", "_posts"]
     #   current_site
