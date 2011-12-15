@@ -1,6 +1,6 @@
 module Hyde
   module ResponseHelper
-    # Generate Rack response array.
+    # Generates Rack response array with specified body.
     def respond_with(body)
       [
         # HTTP status code.
@@ -14,6 +14,7 @@ module Hyde
       ]
     end
 
+    # Generates a Rack response array with a 302 redirect header.
     def redirect_to(path, notice = "")
       notice = "/#{notice.to_s}" unless notice === ""
 

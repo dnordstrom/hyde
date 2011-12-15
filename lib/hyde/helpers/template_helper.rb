@@ -40,7 +40,7 @@ module Hyde
 
    # Loads appropriate template based on authentication status.
     def current_template
-      if @env["warden"].authenticated?
+      if !@env["warden"].nil? && @env["warden"].authenticated?
         load_template("application.html.erb")
       else
         load_template("login.html.erb")
