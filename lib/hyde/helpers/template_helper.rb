@@ -53,7 +53,8 @@ module Hyde
       end
     end
 
-    # Loads ERB template file with current class's binding, and return result.
+    # Loads ERB template file with current class's binding, and
+    # returns result.
     def load_template(file)
       root = File.join( File.expand_path(File.dirname(__FILE__)), "../templates" )
       ERB.new( File.new("#{root}/#{file}").read ).result(binding)
