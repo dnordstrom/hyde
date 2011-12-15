@@ -1,6 +1,9 @@
 module Hyde
   class WardenSetup
     class << self
+      # Sets up Warden authentication strategy that uses
+      # configuration files stored on filesystem, and provides
+      # session serialization instructions for user objects.
       def run
         Warden::Manager.serialize_into_session do |user|
           user[:username].to_s
