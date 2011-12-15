@@ -7,7 +7,7 @@ module Hyde
     include Hyde::MiddlewareHelper
 
     def initialize
-      use Hyde::Managers::Deploy, /^\/*\/deploy$/
+      use Hyde::Managers::Deploy, /^\/.+\/deploy$/
       use Hyde::Managers::Static, /^\/gui/
       use Hyde::Managers::Auth, /^\/auth/
       use Hyde::Managers::Post, "post?"
@@ -18,11 +18,9 @@ module Hyde
     def call(env)
       setup_environment(env)
       reset_notice
-      
+
       return middleware if middleware_responds?
-
-      return handle_deploy if env["PATH_INFO"].to_s =~ /\/deploy$/
-
+      
       if env["warden"].authenticated?
         if !current_site
           notice :select_site

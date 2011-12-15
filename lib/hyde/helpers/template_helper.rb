@@ -26,7 +26,7 @@ module Hyde
     #
     # TODO: Add localization.
     def t(label)
-      notice case label
+      case label
       when :sites
         "Sites"
       when :content

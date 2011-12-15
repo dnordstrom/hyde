@@ -1,17 +1,21 @@
 module Hyde
   module Managers
     class Deploy
+      include PathHelper
       include TemplateHelper
       include ResponseHelper
       include RequestHelper
 
       def call(env)
-        return redirect_to "/", :deploy_fail unless current_site
+        setup_environment(env)
+        return redirect_to "/", :deploy_fail unless current_config
+        
+        result = current_config.run_deploy
 
-        Dir.chdir(current_config.site)
-        output = `jekyll`
+        output = "<strong>Deployment procedure executed.</strong><br><br>"
+        output +="<pre><code>#{result.gsub("\n", "<br>")}</code></pre>"
 
-        notice "<strong>Deployment procedure executed.</strong><br><br><pre><code>#{output.gsub("\n", "<br>")}</code></pre>"
+        notice(output)
 
         respond_with current_template
       end
