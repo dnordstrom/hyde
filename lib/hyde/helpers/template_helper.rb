@@ -59,16 +59,24 @@ module Hyde
       ERB.new( File.new("#{root}/#{file}").read ).result(binding)
     end
 
+    # Returns configuration for current_site if it exists (based on
+    # URL), otherwise returns <code>false</code>.
     def current_config
       @env["hyde.configs"][current_site].nil? ? false : @env["hyde.configs"][current_site]
     end
 
+    # Returns array of files in currently selected directory of
+    # currently selected site. If no directory has been selected
+    # (based on URL), <code>false</code> is returned.
     def current_files
       return false unless current_dir
 
       Dir.glob( File.join(current_config.site, current_dir, "*") ).reverse
     end
 
+    # Returns a <code>File</code> instance of currently selected
+    # file. If no file has been selected, <code>false</code> is
+    # returned.
     def opened_file
       return false unless current_file
 
