@@ -1,6 +1,5 @@
 require "rack"
 require "cgi"
-#require "fakefs/spec_helpers"
 
 module SpecHelper
   def sample_site
@@ -18,6 +17,23 @@ module SpecHelper
       content "_posts"
       content "_pages"
     end
+  end
+
+  def sample_config_file
+    StringIO.new <<-eos
+      user :dnordstrom, :password
+
+      configure :test_site do
+        site "/tmp"
+
+        deploy do
+          `echo Deployed`
+        end
+
+        content "_posts"
+        content "_pages"
+      end
+    eos
   end
 end
 
@@ -77,9 +93,12 @@ module RequestHelper
   def format_of(response)
     content_type = response[1]["Content-Type"]
     
-    format = :xml   if content_of(response).include?("<?xml") && content_type == "text/xml"
-    format = :html  if content_of(response).include?("<html") && content_type == "text/html"
-    format = :json  if content_of(response).include?("CSData = {}") && content_type == "text/javascript"
+    format = :xml if content_of(response).include?("<?xml") &&
+      content_type == "text/xml"
+    format = :html if content_of(response).include?("<html") &&
+      content_type == "text/html"
+    format = :json if content_of(response).include?("CSData = {}") &&
+      content_type == "text/javascript"
     
     format
   end

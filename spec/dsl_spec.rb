@@ -1,42 +1,31 @@
 require "hyde"
+require "spec_helper"
+
+include SpecHelper
 
 describe Hyde::DSL do
-  before do
-    # Example configuration, simulating file
-    # IO using StringIO class.
-    @sample_config = StringIO.new <<-eos
-      user :dnordstrom, :password
-      user :test, :test
-
-      configure :test_site do
-        site "/some/path"
-
-        content "/some/path/_posts"
-        content "/some/path/_pages"
-      end
-
-      configure :another_test_site do
-        site "/another/path"
-
-        content "/another/path/_articles"
-      end
-    eos
-  end
-
   describe "#load" do
+    before do
+      Dir.stub!(:glob).and_return( ["a_file.rb"] )
+      File.stub!(:new).and_return(sample_config_file)
+    end
+
+    before :each do
+      Hyde::DSL.instance_eval { @dsl = nil }
+    end
+
     it "should store all 'configure' blocks" do
-      configs = Hyde::DSL.load @sample_config
-      configs.length.should === 2
+      Hyde::DSL.load.configs.length.should === 1
     end
 
     it "should call configure method" do
-      Hyde::DSL.any_instance.should_receive(:configure).twice
-      Hyde::DSL.load @sample_config
+      Hyde::DSL.any_instance.should_receive(:configure)
+      Hyde::DSL.load
     end
     
     it "should call user method" do
-      Hyde::DSL.any_instance.should_receive(:user).twice
-      Hyde::DSL.load @sample_config
+      Hyde::DSL.any_instance.should_receive(:user)
+      Hyde::DSL.load
     end
   end
 end
