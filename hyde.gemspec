@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fakefs"
   s.add_runtime_dependency "rack"
   s.add_runtime_dependency "warden"
+  s.add_runtime_dependency "slop"
 end
