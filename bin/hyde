@@ -11,26 +11,28 @@ opts = Slop.parse do
     exit
   end
 
-  on :c, :configure=, "Generate configuration file in hyde/ subdirectory." do
-    filename = opts[:configure].gsub(".", "_") + ".rb"
+  on :c, :configure=, "Generate configuration file in hyde/ subdirectory."
+  on :r, :rackup, "Generate rackup script in hyde/ subdirectory."
+  on :s, :setup, "Generate both configuration file and rackup script in hyde/ subdirectory."
+end
 
-    # TODO: Check if dir exists, create dir, copy config template.
+Hyde::Setup.configure(opts) and exit if opts.configure?
+Hyde::Setup.rackup(opts) and exit if opts.rackup?
 
-    exit
-  end
+if opts.setup?
+  Hyde::Setup.configure(opts)
+  Hyde::Setup.rackup(opts)
 
-  on :r, :rackup, "Generate rackup script in hyde/ subdirectory." do
-
-    # TODO: Check if dir exists, create dir, copy rackup template.
-
-  end
+  exit
 end
 
 # Build Rack application.
 app = Rack::Builder.new do
   Hyde::WardenSetup.run
   
-  use Rack::Session::Cookie, secret: rand(36**(16)).to_s(36) # Length of string is 16.
+  # Generate random secret string upon server start. Keeps
+  # cookies safer but also resets auth sessions.
+  use Rack::Session::Cookie, secret: rand(36**(16)).to_s(36) # 16 = length
   use Rack::ShowExceptions
   use Warden::Manager do |manager|
     manager.default_strategies :password
