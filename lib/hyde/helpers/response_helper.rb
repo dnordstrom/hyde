@@ -31,5 +31,19 @@ module Hyde
         [ "302 Redirect" ]
       ]
     end
+
+    # Generates a Rack response array with no body content.
+    def empty_response
+      [
+        # HTTP status code.
+        404,
+
+        # Content type header.
+        { "Content-Type" => "text/html" },
+
+        # Response body, empty.
+        [ "" ]
+      ]
+    end
   end
 end
