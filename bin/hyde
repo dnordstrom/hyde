@@ -2,27 +2,28 @@
 
 require "hyde"
 
-# Options for generating config files etc.
+# Command line options for generating config files etc.
 opts = Slop.parse do
-  on :c, :configure=, "Generate configuration file in hyde/ subdirectory."
-  on :r, :rackup, "Generate rackup script in hyde/ subdirectory."
-end
+  banner "Usage: hyde [options]"
 
-# Command line use; generate configuration file.
-if opts.configure?
-  filename = opts[:configure].gsub(".", "_") + ".rb"
+  on :h, :help, "Print this help message" do
+    puts help
+    exit
+  end
 
-  # TODO: Check if dir exists, create dir, copy config template.
+  on :c, :configure=, "Generate configuration file in hyde/ subdirectory." do
+    filename = opts[:configure].gsub(".", "_") + ".rb"
 
-  exit
-end
+    # TODO: Check if dir exists, create dir, copy config template.
 
-# Command line use; generate rackup.rb file.
-if opts.rackup?
+    exit
+  end
 
-  # TODO: Check if dir exists, create dir, copy rackup template.
+  on :r, :rackup, "Generate rackup script in hyde/ subdirectory." do
 
-  exit
+    # TODO: Check if dir exists, create dir, copy rackup template.
+
+  end
 end
 
 # Build Rack application.
