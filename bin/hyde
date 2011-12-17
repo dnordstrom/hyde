@@ -11,26 +11,6 @@ app = Rack::Builder.new do
   use Warden::Manager do |manager|
     manager.default_strategies :password
     manager.failure_app = Hyde::Managers::Auth.new
-    lambda {|env|
-      self.extend(Hyde::TemplateHelper)
-      notice "Incorrect username or password, please try again."
-
-      template = ERB.new(
-        File.open(
-          File.expand_path(
-            File.join(
-              File.dirname(__FILE__), "../lib/hyde/templates/login.html.erb"
-            )
-          )
-        ).read
-      ).result(binding)
-
-      [
-        200,
-        { "Content-Type" => "text/html" },
-        [ template ]
-      ]
-    }
   end
 
   run Hyde::Application.new
