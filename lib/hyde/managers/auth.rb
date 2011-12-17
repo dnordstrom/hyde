@@ -1,5 +1,7 @@
 module Hyde
   module Managers
+    # Manages authentication requests, as well as Warden
+    # authentication failures.
     class Auth
       include Hyde::PathHelper
       include Hyde::TemplateHelper
@@ -27,14 +29,19 @@ module Hyde
       # the same path (e.g. /^\/auth/) for convenience.
       def call(env)
         setup_environment(env)
-
-        if env["warden"].authenticated?
-          env["warden"].logout
-        else
-          env["warden"].authenticate!(:password)
+        
+        # Path info "/unauthenticated" means Warden is calling
+        # this app as its failure app, and we simply want to
+        # display the login page with a notice.
+        unless @env["PATH_INFO"] === "/unauthenticated"
+          if env["warden"].authenticated?
+            env["warden"].logout
+          else
+            env["warden"].authenticate!(:password)
+          end
         end
 
-        redirect_to "/"
+        redirect_to "/", :auth_fail
       end
     end
   end

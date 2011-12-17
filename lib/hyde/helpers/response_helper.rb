@@ -18,7 +18,7 @@ module Hyde
     # Generates a Rack response array with a 302 redirect header.
     def redirect_to(path, notice = "")
       # Append notice to URL if provided.
-      notice = "/#{notice.to_s}" unless notice === ""
+      notice = "?#{notice.to_s}" unless notice === ""
 
       [
         # HTTP status code.

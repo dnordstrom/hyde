@@ -6,13 +6,13 @@ module Hyde
     #
     # notice :save_success #=> "Successfully saved your file."
     def notice(new_notice = nil)
-      @notice ||= false
+      @env["hyde.notice"] ||= false
 
-      @notice = (
+      @env["hyde.notice"] = (
         if new_notice.is_a? Symbol
           t(new_notice)
         else
-          new_notice.nil? ? @notice : new_notice
+          new_notice.nil? ? @env["hyde.notice"] : new_notice
         end
       )
     end
@@ -20,6 +20,18 @@ module Hyde
     # Reset notice to current_notice if available, otherwise false.
     def reset_notice
       notice (!current_notice ? false : current_notice.to_sym)
+    end
+    
+    # Returns the current notice if specified in URL, or false if
+    # not specified. It will look notice after question mark in
+    # URL, e.g.:
+    #
+    # env["PATH_INFO"] = "/some/path?save_success"
+    # current_notice
+    #   => "Successfully saved your file."
+    def current_notice
+      path = @env["PATH_INFO"].split("?")
+      path[1].nil? ? false : path[1]
     end
 
     # Returns predefined text snippets based on Symbol argument.
@@ -41,6 +53,8 @@ module Hyde
         "Please <strong>select a content type</strong> using the menu bar."
       when :deploy_fail
         "Could not deploy, please <strong>select a site</strong> or submit a bug report."
+      when :auth_fail
+        "Incorrect username or password, please try again."
       end
     end
 

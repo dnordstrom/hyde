@@ -16,7 +16,7 @@ module Hyde
     def use_path(path)
       # Specify indexes of path fragments, e.g. site
       # identifier is in first part of URL ( /:site/... )
-      @parts = { site: 0, dir: 1, file: 2, notice: 3 }
+      @parts = { site: 0, dir: 1, file: 2 }
 
       # Turn full path into array of path fragments, and
       # use Array#shift to remove empty first element.
@@ -30,7 +30,7 @@ module Hyde
       (@path.nil? || @path[part].nil?) ? false : @path[part]
     end
     
-    # Defines ghost methods current_(site|dir|file|notice) based
+    # Defines ghost methods current_(site|dir|file) based
     # on path provided by <code>Hyde::PathHelper::use_path</code>
     # and parts defined in <code>@parts</code> instance variable.
     def method_missing(method, *args)
