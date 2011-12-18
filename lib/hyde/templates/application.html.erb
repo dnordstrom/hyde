@@ -66,13 +66,25 @@
       <div id="main">
         <% if opened_file %>
           <form action="/<%= File.join(current_site, current_dir, current_file)  %>" method="post">
-            <label for="file">File</label>
-            <input type="text" name="file" id="file" value="<%= current_file %>">
+            <div>
+              <label for="file">File</label>
+              <input type="text" name="file" id="file" value="<%= current_file %>">
 
-            <label for="content">Content</label>
-            <textarea name="content" id="content"><%= opened_file.read %></textarea>
+              <label for="content">Content</label>
+              <textarea name="content" id="content"><%= opened_file.read %></textarea>
+            </div>
 
-            <input type="submit" value="Save">
+            <% unless @preview.nil? %>
+              <label>Preview</label>
+              <div id="preview">
+                <%= @preview %>
+              </div>
+            <% end %>
+            
+            <div id="buttons">
+              <input type="submit" name="preview" value="Preview">
+              <input type="submit" name="save" value="Save">
+            </div>
           </form>
         <% end %>
       </div>

@@ -8,7 +8,7 @@ module Hyde
 
       def call(env)
         setup_environment(env)
-        
+ print "\n\nCalling Post\n\n#{params.inspect}\n\n"       
         # Return response with notice if necessary variables aren't available.
         if params["file"].nil? || params["content"].nil? || !current_site || !current_dir
           notice :save_fail

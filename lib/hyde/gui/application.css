@@ -262,6 +262,75 @@ section nav a.current {
 }
 
 /**
+ * PREVIEW AREA
+ */
+
+#preview {
+  width: 90%;
+  max-width: 41em;
+  padding: 1em 3em 1em 1em;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+}
+
+#preview strong {
+  font-weight: bold;
+}
+
+#preview em {
+  font-style: italic;
+}
+
+#preview pre,
+#preview code {
+  font-family: monospace;
+  font-style: normal;
+  font-size: 1.2em;
+}
+
+#preview pre code {
+  font-size: 1em;
+}
+
+#preview h1 {
+  font-size: 1.4em;
+  margin: 0 0 6px 0;
+}
+
+#preview h2 {
+  font-size: 1.3em;
+  margin: 0 0 5px;
+}
+
+#preview h3 {
+  font-size: 1.2em;
+  margin: 0 0 4px;
+}
+
+#preview h4,
+#preview h5,
+#preview h6 {
+  font-weight: bold;
+}
+
+#preview p {
+  margin: 0 0 1.4em;
+}
+
+#preview ol, ul {
+  list-style-position: inside;
+  margin: 0 0 1.4em;
+}
+
+#preview ol {
+  list-style-type: decimal;
+}
+
+#preview ul {
+  list-style-type: disc;
+}
+
+/**
  * FORMS
  */
 

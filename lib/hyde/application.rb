@@ -7,10 +7,11 @@ module Hyde
     include Hyde::MiddlewareHelper
 
     def initialize
+      use Hyde::Managers::Preview, "post? && !params['preview'].nil?"
       use Hyde::Managers::Deploy, /^\/.+\/deploy$/
       use Hyde::Managers::Static, /^\/gui/
       use Hyde::Managers::Auth, /^\/auth/
-      use Hyde::Managers::Post, "post?"
+      use Hyde::Managers::Post, "post? && !params['save'].nil?"
 
       Hyde::DSL.load
     end
