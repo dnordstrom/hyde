@@ -12,11 +12,22 @@ module Hyde
         return empty_response unless current_file
         
         content = params["content"].gsub("\r\n", "\n")
+
+        # We want opened_file() to return the unsaved file
+        # contents from params["content"] to see the changes.
+        opened_file( StringIO.new(content) )
+
         if content =~ /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
           content = $'
         end
+        
+        if current_file =~ /\.(md|markdown)$/
+          @preview = BlueCloth::new(content).to_html
+        else
+          @preview = content
+        end
 
-        @preview = BlueCloth::new(content).to_html
+        notice :preview
 
         respond_with current_template
       end

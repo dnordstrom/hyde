@@ -35,7 +35,7 @@ module Hyde
     # and parts defined in <code>@parts</code> instance variable.
     def method_missing(method, *args)
       if method =~ /current_(.*)/
-        return path_part( @parts[$1.to_sym] ) if @parts.has_key?($1.to_sym)
+        return instance_eval("@current_#{$1}") || path_part( @parts[$1.to_sym] ) if @parts.has_key?($1.to_sym)
       end
 
       super

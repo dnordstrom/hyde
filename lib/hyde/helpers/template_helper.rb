@@ -55,6 +55,8 @@ module Hyde
         "Could not deploy, please <strong>select a site</strong> or submit a bug report."
       when :auth_fail
         "Incorrect username or password, please try again."
+      when :preview
+        "<strong>Note:</strong> File is not yet saved."
       end
     end
 
@@ -92,10 +94,13 @@ module Hyde
     # Returns a <code>File</code> instance of currently selected
     # file. If no file has been selected, <code>false</code> is
     # returned.
-    def opened_file
+    def opened_file(file = nil)
       return false unless current_file
+      
+      @env["hyde.opened_file"] = file unless file.nil?
 
-      File.new( File.join(current_config.site, current_dir, current_file) )
+      @env["hyde.opened_file"] ||
+        File.new( File.join(current_config.site, current_dir, current_file) )
     end
   end
 end

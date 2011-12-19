@@ -345,7 +345,7 @@ textarea {
   display: block;
   font-family: monospace;
   padding: 0.5em;
-  width: 90%;
+  width: 100%;
   max-width: 45em;
 }
 
