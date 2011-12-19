@@ -95,9 +95,9 @@ module Hyde
     # file. If no file has been selected, <code>false</code> is
     # returned.
     def opened_file(file = nil)
-      return false unless current_file
-      
       @env["hyde.opened_file"] = file unless file.nil?
+
+      return false unless current_file || @env["hyde.opened_file"]
 
       @env["hyde.opened_file"] ||
         File.new( File.join(current_config.site, current_dir, current_file) )

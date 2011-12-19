@@ -242,7 +242,8 @@ section nav a:hover {
 }
 
 section nav a.current {
-  border-left: 5px solid #59A80F;
+  border-left: 0.5em solid #59A80F;
+  padding-left: 1em;
 }
 
 #notice {

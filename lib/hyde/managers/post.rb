@@ -8,13 +8,28 @@ module Hyde
 
       def call(env)
         setup_environment(env)
- print "\n\nCalling Post\n\n#{params.inspect}\n\n"       
+
         # Return response with notice if necessary variables aren't available.
         if params["file"].nil? || params["content"].nil? || !current_site || !current_dir
           notice :save_fail
           return respond_with current_template
         end
-        
+
+        current_file === "new" ? create_file : save_file
+      end
+
+      def create_file
+        path = File.join(current_config.site, current_dir, params["file"])
+        new_uri = File.join("/", current_site, current_dir, params["file"])
+
+        File.open(path, "w") do |file|
+          file.write( params["content"] )
+        end
+
+        redirect_to new_uri, :save_success
+      end
+
+      def save_file
         # Save new content.
         old_path = File.join(current_config.site, current_dir, current_file)
         File.open(old_path, "w") do |file|

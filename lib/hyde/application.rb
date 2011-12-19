@@ -30,6 +30,13 @@ module Hyde
         end
       end
 
+      # If user has selected a content directory but no file, we
+      # want to display the "new file" form with textarea having
+      # the content of a blank file with YAML header.
+      if current_dir && !current_file
+        opened_file( StringIO.new("---\nlayout: \ntitle: \n---\n") )
+      end
+
       respond_with current_template
     end
   end
