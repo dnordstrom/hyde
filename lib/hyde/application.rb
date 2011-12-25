@@ -11,7 +11,8 @@ module Hyde
       use Hyde::Managers::Deploy, /^\/.+\/deploy$/
       use Hyde::Managers::Static, /^\/gui/
       use Hyde::Managers::Auth, /^\/auth/
-      use Hyde::Managers::Post, "post? && !params['save'].nil?"
+      use Hyde::Managers::Post,
+        "post? && (!params['delete'].nil? || !params['save'].nil?)"
 
       Hyde::DSL.load
     end

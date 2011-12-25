@@ -84,10 +84,11 @@
             <div id="buttons">
               <input type="submit" name="preview" value="Preview">
               <input type="submit" name="save" value="Save">
+              <% if current_file %>
+                <input type="submit" name="delete" value="Delete" class="confirm">
+              <% end %>
             </div>
           </form>
-        <% else %>
-
         <% end %>
       </div>
     </section>

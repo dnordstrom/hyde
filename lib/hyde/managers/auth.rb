@@ -29,7 +29,8 @@ module Hyde
       # the same path (e.g. /^\/auth/) for convenience.
       def call(env)
         setup_environment(env)
-        
+        reset_notice
+
         # Path info "/unauthenticated" means Warden is calling
         # this app as its failure app, and we simply want to
         # display the login page with a notice.
@@ -39,9 +40,11 @@ module Hyde
           else
             env["warden"].authenticate!(:password)
           end
+        else
+          failed = true
         end
 
-        redirect_to "/", :auth_fail
+        redirect_to "/", (:auth_fail if failed)
       end
     end
   end

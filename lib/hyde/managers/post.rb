@@ -8,12 +8,15 @@ module Hyde
 
       def call(env)
         setup_environment(env)
+        reset_notice
 
         # Return response with notice if necessary variables aren't available.
         if params["file"].nil? || params["content"].nil? || !current_site || !current_dir
           notice :save_fail
           return respond_with current_template
         end
+
+        return delete_file unless params["delete"].nil?
 
         current_file === "new" ? create_file : save_file
       end
@@ -48,6 +51,14 @@ module Hyde
         # Respond as usual if file was not moved.
         notice :save_success
         respond_with current_template
+      end
+
+      def delete_file
+        file = File.join(current_config.site, current_dir, current_file)
+
+        File.delete(file)
+
+        redirect_to "/#{current_site}/#{current_dir}", :delete_success
       end
     end
   end
