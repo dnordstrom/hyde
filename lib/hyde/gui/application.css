@@ -140,6 +140,7 @@ header h1 span {
 }
 
 header h1 a {  
+  font-size: 0.85em;
   text-decoration: none;
 }
 

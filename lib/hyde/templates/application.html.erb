@@ -72,6 +72,14 @@
 
               <label for="content">Content</label>
               <textarea name="content" id="content"><%= opened_file.read %></textarea>
+
+              <label>Help</label>
+              <div id="help">
+                <ul>
+                  <li><a href="#bold">Bold</a></li>
+                  <li><a href="#italic">Italic</a></li>
+                </ul>
+              </div>
             </div>
 
             <% unless @preview.nil? %>
@@ -93,5 +101,7 @@
       </div>
     </section>
 
+    <script src="/gui/ni.js">
+    <script src="/gui/application.js">
   </body>
 </html>
